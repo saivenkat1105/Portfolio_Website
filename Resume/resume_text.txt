@@ -1,0 +1,54 @@
+Sai Venkat Gunda
+/envelope_alt1105saivenkat@gmail.com | /mobile_phone+91 98408 80858 | /linkedinlinkedin.com/in/sai-venkat-gunda
+/githubgithub.com/saivenkat1105 | /globesaivenkat1105.github.io
+SUMMARY
+Advanced Controls and ML Engineer with 4 years of industry experience. I specialize in the full engineering
+lifecycle: translating complex system requirements into mathematical models, testing them in simulation, and
+deploying data driven control strategies to hardware. Currently targeting roles in the Physical AI space that
+require a deep mix of physical modeling, simulation, and applied machine learning.
+Professional Experience
+• Jaguar Land Rover Bengaluru, India
+Advanced Controls Engineer May 2024 - Present
+◦ Virtual Sensors : Engineered and deployed industrialized ML models to edge hardware to virtualize thermal
+sensors achieving 96% real time prediction accuracy in production vehicles.
+◦ ML Data Pipelines : Built a complete ML pipeline to create Virtual Sensors from data collection from multiple
+simulation, rig and vehicle sources, robust data pre processing and ﬁltering, modelling and validation. Reduced the
+complete delivery cycle from 1 week to 4 hours.
+◦ Hypervisor: Assisted in developing a model based supervisory controller that calculates thermal energy
+parameters real time and recommends the most eﬃcient mode of thermal operation. Hypervisor is currently
+providing a range beneﬁt of 15-35 miles depending on ambient conditions
+◦ Engineering Lifecycle : Managed the complete delivery of Hypervisor from requirement deﬁnition, failure mode
+analysis, system validation across unit, rig and vehicle levels and feature delivery.
+◦ State Estimation(EKF) : Developing an Extended Kalman Filter for the refrigerant system to replace existing
+black box Virtual Sensors with grey-box state estimation techniques for better explainability, reliability and
+accuracy of predictions
+◦ Model Predictive Control(MPC) : Currently developing a deployable Model Predictive Controller architecture
+for vehicle refrigerant systems to optimize between comfort, performance, component durability and eﬃciency.
+• Jaguar Land Rover Bengaluru, India
+Structural CAE Analyst July 2022 - May 2024
+◦ Multi-disciplinary Optimization : Developed multi-objective topology optimization methods to satisfy
+conﬂicting durability and crash requirements reducing weight by 10% and improving fastener performance by 16%
+◦ Reduced Order Modelling : Developed reduced order 1D frontal crash modelling techniques providing quick
+veriﬁcation of design ideas in seconds with an accuracy of 80%
+Projects
+• Acoustic Localization of Underwater Robots IIT Madras
+Guide: Dr. Prabhu Rajagopal May 2021 - May 2022
+◦ Sensor Development: Developed acoustic sensor systems for real-time and accurate localization with a ±10cm
+accuracy across 1 km for pipeline robots using guided acoustic waves
+• Autonomous All-terrain Mars Rover IIT Madras
+Team and Traversal Lead Jan 2018 - May 2020
+◦ 5 DOF Manipulator : Developed a 5 DOF serial manipulator with a compliant gripper. Developed closed loop
+control systems for the manipulator using Inverse Kinematics for robust manipulation
+◦ All-T errain T raversal System: Developed a rocker bogie suspension system for all terrain travel of autonomous
+rovers capable of climbing 45 cm heights and 30 ° slopes
+• Cerebral Palsy Assist Wheelchair IIT Madras
+Guide: Dr. Sujatha Srinivasan July 2019 - July 2020
+◦ Mechatronics: Developed pediatric wheelchairs with body movement based control systems for cerebral palsy
+patients.
+Programming Skills
+Languages: Python, C++ Modelling and Simulation : MATLAB, Simulink, Gazebo, MuJoCo, Isaac Sim
+F rameworks: ROS2(Humble), Nav2, SLAM Toolbox ML: Pytorch, Scikit-learn, Reinforcement Learning(PPO,
+SAC, DQN), RAG, LLM
+Education
+• Indian institute of T echnology Madras Chennai, India
+Dual Degree(B.Tech + M.Tech) Honours in Mechanical Engineering; GPA: 9.14 Aug. 2017 – May. 2022
