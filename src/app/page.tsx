@@ -129,10 +129,12 @@ export default function Home() {
           className="shrink-0"
         >
           {/* Profile Photo Placeholder */}
-          <div className="w-48 h-48 md:w-64 md:h-64 rounded-full border-4 border-border overflow-hidden bg-muted flex items-center justify-center relative shadow-xl group cursor-pointer">
-            <img src="/profile.jpg" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity">
-              <span className="text-white text-xs font-semibold px-4 text-center">Update src="/profile.jpg"<br />in Code</span>
+          <div className="hidden lg:flex justify-end items-start">
+            <div className="w-48 md:w-64 aspect-square rounded-2xl bg-muted border border-border shadow-sm flex items-center justify-center relative overflow-hidden group">
+              <img src="profile.jpg" className="w-full h-full object-cover" />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-6">
+                <span className="text-white text-sm font-medium text-center">About Photo Placeholder<br />(Update in Code)</span>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -162,7 +164,7 @@ export default function Home() {
             </div>
             <div className="hidden lg:flex justify-end items-start">
               <div className="w-full aspect-square rounded-2xl bg-muted border border-border shadow-sm flex items-center justify-center relative overflow-hidden group">
-                <img src="/profile.jpg" className="w-full h-full object-cover" />
+                <img src="profile.jpg" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-6">
                   <span className="text-white text-sm font-medium text-center">About Photo Placeholder<br />(Update in Code)</span>
                 </div>
