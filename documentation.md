@@ -12,9 +12,11 @@ This file tracks the implementation details and changelog of the portfolio proje
 - **Architectural Overhaul**: Migrated the entire routing system into a scrollable Single Page interface matching modern design standards.
 - **Search Fixes**: Shifted search bindings smoothly across HTML anchor links instead of routing contexts.
 - **Photo Modals**: Injected interactive `.svg` placeholders for easy portrait integration via `/public`.
+- **UI Refinement**: Removed the "Sections" heading from the Sidebar for a cleaner, more minimalist look.
+- **Content Update**: User successfully integrated `profile.jpg` into the Introduction and About sections.
 
 ## Variables & Placeholders TO DO
 *(Elements requiring manual modification)*
 
-- [ ] Add your actual photo named `profile.jpg` into the `public/` folder, then replace the `<User ... />` element in `src/app/page.tsx` with `<img src="/profile.jpg" className="..." />` inside the Introduction and About sections.
+- [x] Add your actual photo named `profile.jpg` into the `public/` folder, then replace the `<User ... />` element in `src/app/page.tsx` with `<img src="/profile.jpg" className="..." />` inside the Introduction and About sections.
 - [ ] You can update the `siteConfig` or `metadata` in `src/app/layout.tsx` for SEO optimization.

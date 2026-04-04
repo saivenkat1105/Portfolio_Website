@@ -101,7 +101,7 @@ export default function Home() {
           <p className="mt-6 max-w-2xl text-base text-muted-foreground leading-relaxed sm:text-lg">
             I specialize in the full engineering lifecycle: translating complex system requirements into mathematical models, testing them in simulation, and deploying data-driven control strategies to hardware. Currently targeting roles in the Physical AI space that require a deep mix of physical modeling, simulation, and applied machine learning.
           </p>
-          
+
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href="resume.pdf"
@@ -121,7 +121,7 @@ export default function Home() {
             </a>
           </div>
         </motion.div>
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
@@ -130,9 +130,9 @@ export default function Home() {
         >
           {/* Profile Photo Placeholder */}
           <div className="w-48 h-48 md:w-64 md:h-64 rounded-full border-4 border-border overflow-hidden bg-muted flex items-center justify-center relative shadow-xl group cursor-pointer">
-            <User className="w-24 h-24 text-muted-foreground opacity-50" />
+            <img src="/profile.jpg" className="w-full h-full object-cover" />
             <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity">
-              <span className="text-white text-xs font-semibold px-4 text-center">Update src="/profile.jpg"<br/>in Code</span>
+              <span className="text-white text-xs font-semibold px-4 text-center">Update src="/profile.jpg"<br />in Code</span>
             </div>
           </div>
         </motion.div>
@@ -147,14 +147,14 @@ export default function Home() {
           transition={{ duration: 0.5 }}
         >
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">About Me</h1>
-          
+
           <div className="mt-8 grid grid-cols-1 lg:grid-cols-[1fr_minmax(250px,300px)] gap-10">
             <div className="space-y-6 text-muted-foreground leading-relaxed">
               <p>
                 Hello! I am Sai Venkat Gunda, an Advanced Controls and ML Engineer with over 4 years of industry experience. I am deeply passionate about bridging the gap between theoretical models and real-world physical systems.
               </p>
               <p>
-                My expertise spans the entire engineering product lifecycle. I take complex system requirements, model them mathematically, rigorously test them using advanced simulation frameworks (like MATLAB/Simulink, Gazebo, MuJoCo), and finally deploy these data-driven control strategies onto physical hardware (Edge AI). 
+                My expertise spans the entire engineering product lifecycle. I take complex system requirements, model them mathematically, rigorously test them using advanced simulation frameworks (like MATLAB/Simulink, Gazebo, MuJoCo), and finally deploy these data-driven control strategies onto physical hardware (Edge AI).
               </p>
               <p>
                 Currently, my core focus is on the rapidly evolving Physical AI space. I want to build systems that interact intelligently with the physical world, pushing the boundaries of what autonomous and control systems can accomplish.
@@ -162,9 +162,9 @@ export default function Home() {
             </div>
             <div className="hidden lg:flex justify-end items-start">
               <div className="w-full aspect-square rounded-2xl bg-muted border border-border shadow-sm flex items-center justify-center relative overflow-hidden group">
-                <User className="w-16 h-16 text-muted-foreground opacity-50" />
+                <img src="/profile.jpg" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-6">
-                  <span className="text-white text-sm font-medium text-center">About Photo Placeholder<br/>(Update in Code)</span>
+                  <span className="text-white text-sm font-medium text-center">About Photo Placeholder<br />(Update in Code)</span>
                 </div>
               </div>
             </div>
@@ -182,10 +182,10 @@ export default function Home() {
         >
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Projects</h1>
           <p className="mt-4 text-muted-foreground">A showcase of the engineering projects and academic research I have contributed to.</p>
-          
+
           <div className="mt-8 grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
             {projects.map((project, idx) => (
-              <motion.div 
+              <motion.div
                 key={idx}
                 whileHover={{ y: -5 }}
                 className="flex flex-col justify-between rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md"
@@ -220,14 +220,14 @@ export default function Home() {
         >
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Skills & Tools</h1>
           <p className="mt-4 text-muted-foreground">The technical stack and simulation tools I use on a daily basis.</p>
-          
+
           <div className="mt-8 space-y-8">
             {Object.entries(skillsMap).map(([category, skills]) => (
               <div key={category}>
                 <h3 className="text-xl font-semibold mb-4">{category}</h3>
                 <div className="flex flex-wrap gap-3">
                   {skills.map((skill) => (
-                    <div 
+                    <div
                       key={skill}
                       className="flex items-center rounded-full border border-border bg-card px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
                     >
@@ -259,13 +259,13 @@ export default function Home() {
                   <div className="absolute left-0 top-3 bottom-[-3rem] w-px bg-border" />
                 )}
                 <div className="absolute left-[-4px] top-2 h-2.5 w-2.5 rounded-full bg-primary ring-4 ring-background" />
-                
+
                 <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between">
                   <h3 className="text-xl font-bold">{exp.role}</h3>
                   <span className="mt-1 text-sm text-muted-foreground sm:mt-0">{exp.date}</span>
                 </div>
                 <p className="font-medium text-primary">{exp.company} &mdash; {exp.location}</p>
-                
+
                 <ul className="mt-4 list-outside list-disc space-y-2 pl-4 text-muted-foreground">
                   {exp.bullets.map((bullet, idx) => (
                     <li key={idx} className="text-sm leading-relaxed">{bullet}</li>
@@ -292,7 +292,7 @@ export default function Home() {
             {educations.map((edu, index) => (
               <div key={index} className="relative pl-6 sm:pl-8">
                 <div className="absolute left-[-4px] top-2 h-2.5 w-2.5 rounded-full bg-primary ring-4 ring-background" />
-                
+
                 <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between">
                   <h3 className="text-xl font-bold">{edu.institution}</h3>
                   <span className="mt-1 text-sm text-muted-foreground sm:mt-0">{edu.date}</span>
@@ -315,10 +315,10 @@ export default function Home() {
         >
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Vibe Coded Projects</h1>
           <p className="mt-4 text-muted-foreground">Experimental implementations, generative AI workflows, and creative coding built entirely from vibes.</p>
-          
+
           <div className="mt-8 grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
             {vibeCodedProjects.map((project, idx) => (
-              <motion.div 
+              <motion.div
                 key={idx}
                 whileHover={{ y: -5 }}
                 className="flex flex-col justify-between rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md border-l-4 border-l-primary"

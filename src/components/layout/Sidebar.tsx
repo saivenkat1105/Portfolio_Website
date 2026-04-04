@@ -27,7 +27,6 @@ export function Sidebar() {
 
   return (
     <aside className="hidden md:block border-r border-border w-[240px] shrink-0 sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto px-4 py-8">
-      <h4 className="font-medium text-sm px-2 pb-2">Sections</h4>
       <div className="flex flex-col gap-1 text-sm">
         {sections.map((sec) => {
           const isActive = activeSection === sec.id;
