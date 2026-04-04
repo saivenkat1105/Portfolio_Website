@@ -104,7 +104,7 @@ export default function Home() {
           
           <div className="mt-8 flex flex-wrap gap-4">
             <a
-              href="/Resume/Sai_Venkat_CV.pdf"
+              href="/Sai_Venkat_CV.pdf"
               target="_blank"
               rel="noreferrer"
               className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
