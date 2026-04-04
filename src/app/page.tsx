@@ -133,7 +133,7 @@ export default function Home() {
             <div className="w-48 md:w-64 aspect-square rounded-2xl bg-muted border border-border shadow-sm flex items-center justify-center relative overflow-hidden group">
               <img src="profile.jpg" className="w-full h-full object-cover" />
               <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-6">
-                <span className="text-white text-sm font-medium text-center">About Photo Placeholder<br />(Update in Code)</span>
+                <span className="text-white text-sm font-medium text-center">The Casual Look</span>
               </div>
             </div>
           </div>
@@ -164,9 +164,9 @@ export default function Home() {
             </div>
             <div className="hidden lg:flex justify-end items-start">
               <div className="w-full aspect-square rounded-2xl bg-muted border border-border shadow-sm flex items-center justify-center relative overflow-hidden group">
-                <img src="profile.jpg" className="w-full h-full object-cover" />
+                <img src="profile_2.jpg" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-6">
-                  <span className="text-white text-sm font-medium text-center">About Photo Placeholder<br />(Update in Code)</span>
+                  <span className="text-white text-sm font-medium text-center"><br />Ready to fly away</span>
                 </div>
               </div>
             </div>
