@@ -9,10 +9,12 @@ This file tracks the implementation details and changelog of the portfolio proje
 - **Command Menu**: Implemented a functional ⌘K interface using `cmdk` for search and routing.
 - **Theme Support**: Implemented dark/light mode via `next-themes`.
 - **Content Pages**: Added Introduction, About, Projects, Skills, Experience, and Education parsing the provided CV.
+- **Architectural Overhaul**: Migrated the entire routing system into a scrollable Single Page interface matching modern design standards.
+- **Search Fixes**: Shifted search bindings smoothly across HTML anchor links instead of routing contexts.
+- **Photo Modals**: Injected interactive `.svg` placeholders for easy portrait integration via `/public`.
 
 ## Variables & Placeholders TO DO
 *(Elements requiring manual modification)*
 
-- [ ] Ensure `Resume/Sai_Venkat_CV.pdf` exists directly inside `public/` directory so the link works correctly. Currently, your link `Resume/Sai_Venkat_CV.pdf` may break if the Resume folder isn't in `public/`.
+- [ ] Add your actual photo named `profile.jpg` into the `public/` folder, then replace the `<User ... />` element in `src/app/page.tsx` with `<img src="/profile.jpg" className="..." />` inside the Introduction and About sections.
 - [ ] You can update the `siteConfig` or `metadata` in `src/app/layout.tsx` for SEO optimization.
-- [ ] Check link to your actual resume in `src/app/page.tsx`, `src/components/layout/Header.tsx`.

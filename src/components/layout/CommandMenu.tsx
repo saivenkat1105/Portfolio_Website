@@ -3,11 +3,9 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { Command } from "cmdk";
 import { Search } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 export function CommandMenu() {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -32,6 +30,14 @@ export function CommandMenu() {
     command();
   }, []);
 
+  const scrollTo = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+      window.history.pushState(null, '', `#${id}`);
+    }
+  };
+
   if (!open) return null;
 
   return (
@@ -46,7 +52,7 @@ export function CommandMenu() {
             <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
             <Command.Input 
               className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50" 
-              placeholder="Type a command or search..." 
+              placeholder="Type a section or search..." 
               autoFocus
             />
           </div>
@@ -56,39 +62,45 @@ export function CommandMenu() {
             <Command.Group heading="Navigation">
               <Command.Item 
                 className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => router.push("/"))}
+                onSelect={() => runCommand(() => scrollTo("introduction"))}
               >
                 Introduction
               </Command.Item>
               <Command.Item 
                 className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => router.push("/about"))}
+                onSelect={() => runCommand(() => scrollTo("about"))}
               >
-                About
+                About Me
               </Command.Item>
               <Command.Item 
                 className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => router.push("/projects"))}
+                onSelect={() => runCommand(() => scrollTo("projects"))}
               >
                 Projects
               </Command.Item>
               <Command.Item 
                 className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => router.push("/skills"))}
+                onSelect={() => runCommand(() => scrollTo("skills"))}
               >
                 Skills & Tools
               </Command.Item>
               <Command.Item 
                 className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => router.push("/experience"))}
+                onSelect={() => runCommand(() => scrollTo("experience"))}
               >
                 Experience
               </Command.Item>
               <Command.Item 
                 className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => router.push("/education"))}
+                onSelect={() => runCommand(() => scrollTo("education"))}
               >
                 Education
+              </Command.Item>
+              <Command.Item 
+                className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                onSelect={() => runCommand(() => scrollTo("vibe-coded"))}
+              >
+                Vibe Coded Projects
               </Command.Item>
             </Command.Group>
           </Command.List>

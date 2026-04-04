@@ -1,37 +1,48 @@
 "use client";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useActiveSection } from "@/hooks/useActiveSection";
 import { cn } from "@/lib/utils";
 
 const sections = [
-  { name: "Introduction", path: "/" },
-  { name: "About Me", path: "/about" },
-  { name: "Projects", path: "/projects" },
-  { name: "Skills & Tools", path: "/skills" },
-  { name: "Experience", path: "/experience" },
-  { name: "Education", path: "/education" },
+  { name: "Introduction", id: "introduction" },
+  { name: "About Me", id: "about" },
+  { name: "Projects", id: "projects" },
+  { name: "Skills & Tools", id: "skills" },
+  { name: "Experience", id: "experience" },
+  { name: "Education", id: "education" },
+  { name: "Vibe Coded Projects", id: "vibe-coded" }
 ];
 
 export function Sidebar() {
-  const pathname = usePathname();
+  const activeSection = useActiveSection(sections.map(s => s.id));
+
+  const onClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      // Update hash without jump
+      window.history.pushState(null, '', `#${id}`);
+    }
+  };
 
   return (
     <aside className="hidden md:block border-r border-border w-[240px] shrink-0 sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto px-4 py-8">
       <h4 className="font-medium text-sm px-2 pb-2">Sections</h4>
       <div className="flex flex-col gap-1 text-sm">
         {sections.map((sec) => {
-          const isActive = pathname === sec.path;
+          const isActive = activeSection === sec.id;
           return (
-            <Link
-              key={sec.path}
-              href={sec.path}
+            <a
+              key={sec.id}
+              href={`#${sec.id}`}
+              onClick={(e) => onClick(e, sec.id)}
               className={cn(
                 "flex h-8 items-center rounded-md px-2 transition-colors hover:bg-accent hover:text-accent-foreground",
                 isActive ? "bg-accent text-accent-foreground font-medium" : "text-muted-foreground"
               )}
             >
               {sec.name}
-            </Link>
+            </a>
           );
         })}
       </div>
