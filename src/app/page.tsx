@@ -190,29 +190,29 @@ export default function Home() {
         </div>
 
         {/* Local Sidebar Layout */}
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 relative items-start mt-8">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-8 xl:gap-12 relative items-start mt-8">
           
           {/* Local Sticky Filter Engine */}
-          <div className="w-full lg:w-48 xl:w-56 shrink-0 lg:sticky lg:top-24 max-h-[calc(100vh-6rem)] overflow-y-auto no-scrollbar lg:pb-8 flex flex-col gap-6">
+          <div className="w-full md:w-40 lg:w-48 xl:w-56 shrink-0 sticky top-20 md:top-24 max-h-[calc(100vh-6rem)] overflow-y-auto no-scrollbar pb-4 md:pb-8 flex flex-col gap-4 md:gap-6 z-20 bg-background/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none border-b md:border-none border-border/50 -mx-4 px-4 md:mx-0 md:px-0 pt-2 md:pt-0">
             <button
               onClick={() => toggleTag("All")}
-              className={`w-full px-4 py-2 rounded-lg text-sm font-bold transition-all text-left border ${activeTags.length === 0 ? "bg-primary/10 text-primary border-primary/30" : "bg-card border-border/50 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              className={`w-full px-4 py-2 rounded-lg text-sm font-bold transition-all text-left border shadow-sm ${activeTags.length === 0 ? "bg-primary/10 text-primary border-primary/30" : "bg-card border-border/50 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                 }`}
             >
               All Projects
             </button>
 
             {/* Domain List */}
-            <div className="flex flex-col gap-3">
-              <h3 className="text-xs font-black text-muted-foreground uppercase tracking-widest pl-2 border-l-2 border-primary/30">Domains</h3>
-              <div className="flex flex-row lg:flex-col gap-1.5 flex-wrap">
+            <div className="flex flex-col gap-2 md:gap-3">
+              <h3 className="text-[10px] md:text-xs font-black text-muted-foreground uppercase tracking-widest pl-2 border-l-2 border-primary/30">Domains</h3>
+              <div className="flex flex-row md:flex-col gap-1.5 flex-nowrap overflow-x-auto no-scrollbar pb-1 md:pb-0 md:flex-wrap">
                 {DOMAIN_TAGS.map(tag => {
                   const isActive = activeTags.includes(tag);
                   return (
                     <button
                       key={tag}
                       onClick={() => toggleTag(tag)}
-                      className={`px-3 py-1.5 lg:py-1 lg:px-2 rounded-md text-[11px] lg:text-sm font-semibold transition-all text-left border lg:border-none ${isActive ? "bg-primary/10 text-primary border-primary/30" : "bg-card border-border/50 lg:bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      className={`shrink-0 px-3 py-1.5 md:py-1 md:px-2 rounded-md text-[11px] md:text-sm font-semibold transition-all text-left border md:border-none ${isActive ? "bg-primary text-primary-foreground md:bg-primary/10 md:text-primary md:border-primary/30 shadow md:shadow-none" : "bg-card border-border/50 md:bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                         }`}
                     >
                       {tag}
@@ -223,16 +223,16 @@ export default function Home() {
             </div>
 
             {/* Tech Stack List */}
-            <div className="flex flex-col gap-3">
-              <h3 className="text-xs font-black text-muted-foreground uppercase tracking-widest pl-2 border-l-2 border-primary/30">Tech Stack</h3>
-              <div className="flex flex-row lg:flex-col gap-1.5 flex-wrap">
+            <div className="flex flex-col gap-2 md:gap-3">
+              <h3 className="text-[10px] md:text-xs font-black text-muted-foreground uppercase tracking-widest pl-2 border-l-2 border-primary/30">Tech Stack</h3>
+              <div className="flex flex-row md:flex-col gap-1.5 flex-nowrap overflow-x-auto no-scrollbar pb-1 md:pb-0 md:flex-wrap">
                 {TECH_STACK_TAGS.map(tag => {
                   const isActive = activeTags.includes(tag);
                   return (
                     <button
                       key={tag}
                       onClick={() => toggleTag(tag)}
-                      className={`px-3 py-1.5 lg:py-1 lg:px-2 rounded-md text-[11px] lg:text-sm font-semibold transition-all text-left border lg:border-none ${isActive ? "bg-primary/10 text-primary border-primary/30" : "bg-card border-border/50 lg:bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      className={`shrink-0 px-3 py-1.5 md:py-1 md:px-2 rounded-md text-[11px] md:text-sm font-semibold transition-all text-left border md:border-none ${isActive ? "bg-primary text-primary-foreground md:bg-primary/10 md:text-primary md:border-primary/30 shadow md:shadow-none" : "bg-card border-border/50 md:bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                         }`}
                     >
                       {tag}
