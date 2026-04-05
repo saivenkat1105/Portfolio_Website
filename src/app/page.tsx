@@ -94,7 +94,7 @@ export default function Home() {
 
   const getFilteredAndSorted = (projects: Project[]) => {
     let result = projects;
-    
+
     if (activeTags.length > 0) {
       result = projects
         .map(p => ({ project: p, matches: activeTags.filter(tag => p.tags.includes(tag)).length }))
@@ -184,7 +184,7 @@ export default function Home() {
 
       {/* 2. Skills & Tools Tile Layout */}
       <section id="skills" className="pt-24 scroll-mt-14">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8">Skills & Arsenal</h1>
+        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8">Tech Stack</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {Object.entries(skillsMap).map(([category, skills]) => (
@@ -212,7 +212,7 @@ export default function Home() {
 
         {/* Local Sidebar Layout */}
         <div className="flex flex-col md:flex-row gap-6 md:gap-8 xl:gap-12 relative items-start mt-8">
-          
+
           {/* Local Sticky Filter Engine */}
           <div className="w-full md:w-40 lg:w-48 xl:w-56 shrink-0 sticky top-20 md:top-24 max-h-[calc(100vh-6rem)] overflow-y-auto no-scrollbar pb-4 md:pb-8 flex flex-col gap-4 md:gap-6 z-20 bg-background/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none border-b md:border-none border-border/50 -mx-4 px-4 md:mx-0 md:px-0 pt-2 md:pt-0">
             <button
@@ -269,51 +269,50 @@ export default function Home() {
             <div className="grid gap-6 sm:grid-cols-1 xl:grid-cols-2">
               <AnimatePresence mode="popLayout">
                 {filteredProjects.map((project) => {
-              const isVibe = project.type === 'vibe';
-              return (
-              <motion.div 
-                key={project.slug}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9, filter: "blur(4px)" }}
-                transition={{ duration: 0.3 }}
-              >
-                <button onClick={() => setSelectedProject(project)} className={`text-left flex flex-col h-full w-full rounded-[2rem] border border-border shadow-sm transition-all group hover:-translate-y-1 ${
-                  isVibe 
-                    ? "bg-gradient-to-br from-card to-muted p-8 hover:shadow-xl border-l-4 border-l-primary" 
-                    : "bg-card p-8 hover:shadow-xl hover:border-primary/50"
-                  }`}>
-                  <div className="flex justify-between items-start mb-4 w-full">
-                    <h3 className="text-2xl font-bold group-hover:text-primary transition-colors pr-4">{project.title}</h3>
-                    <ExternalLink className="h-5 w-5 text-muted-foreground/30 group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0 shrink-0" />
-                  </div>
-                  <p className={`mt-1 text-xs font-mono mb-6 ${isVibe ? 'text-primary' : 'text-muted-foreground'}`}>{project.date}</p>
-                  <p className="text-muted-foreground text-sm leading-relaxed flex-1">{project.shortDescription}</p>
-                  <div className="mt-8 flex flex-wrap gap-2">
-                    {project.tags.map(tag => {
-                      const isHighlighted = activeTags.includes(tag);
-                      return (
-                        <span key={tag} className={`inline-flex items-center rounded-lg border px-2.5 py-1 text-[10px] uppercase font-bold tracking-widest shadow-sm transition-colors ${
-                          isHighlighted 
-                            ? "bg-primary border-primary text-primary-foreground" 
-                            : (isVibe ? "border-border/50 bg-background/50 text-muted-foreground" : "border-border/50 bg-background text-muted-foreground")
+                  const isVibe = project.type === 'vibe';
+                  return (
+                    <motion.div
+                      key={project.slug}
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9, filter: "blur(4px)" }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <button onClick={() => setSelectedProject(project)} className={`text-left flex flex-col h-full w-full rounded-[2rem] border border-border shadow-sm transition-all group hover:-translate-y-1 ${isVibe
+                          ? "bg-gradient-to-br from-card to-muted p-8 hover:shadow-xl border-l-4 border-l-primary"
+                          : "bg-card p-8 hover:shadow-xl hover:border-primary/50"
                         }`}>
-                          {tag}
-                        </span>
-                      );
-                    })}
-                  </div>
-                </button>
-              </motion.div>
-            )})}
-          </AnimatePresence>
-          {filteredProjects.length === 0 && (
-             <div className="col-span-full py-12 px-6 rounded-[2rem] border border-dashed border-border flex flex-col items-center justify-center text-center">
-                 <p className="text-muted-foreground">No projects found matching the selected tags.</p>
-                 <button onClick={() => toggleTag("All")} className="mt-4 text-sm text-primary hover:underline">Clear Filters</button>
-             </div>
-          )}
+                        <div className="flex justify-between items-start mb-4 w-full">
+                          <h3 className="text-2xl font-bold group-hover:text-primary transition-colors pr-4">{project.title}</h3>
+                          <ExternalLink className="h-5 w-5 text-muted-foreground/30 group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0 shrink-0" />
+                        </div>
+                        <p className={`mt-1 text-xs font-mono mb-6 ${isVibe ? 'text-primary' : 'text-muted-foreground'}`}>{project.date}</p>
+                        <p className="text-muted-foreground text-sm leading-relaxed flex-1">{project.shortDescription}</p>
+                        <div className="mt-8 flex flex-wrap gap-2">
+                          {project.tags.map(tag => {
+                            const isHighlighted = activeTags.includes(tag);
+                            return (
+                              <span key={tag} className={`inline-flex items-center rounded-lg border px-2.5 py-1 text-[10px] uppercase font-bold tracking-widest shadow-sm transition-colors ${isHighlighted
+                                  ? "bg-primary border-primary text-primary-foreground"
+                                  : (isVibe ? "border-border/50 bg-background/50 text-muted-foreground" : "border-border/50 bg-background text-muted-foreground")
+                                }`}>
+                                {tag}
+                              </span>
+                            );
+                          })}
+                        </div>
+                      </button>
+                    </motion.div>
+                  )
+                })}
+              </AnimatePresence>
+              {filteredProjects.length === 0 && (
+                <div className="col-span-full py-12 px-6 rounded-[2rem] border border-dashed border-border flex flex-col items-center justify-center text-center">
+                  <p className="text-muted-foreground">No projects found matching the selected tags.</p>
+                  <button onClick={() => toggleTag("All")} className="mt-4 text-sm text-primary hover:underline">Clear Filters</button>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -486,8 +485,8 @@ export default function Home() {
                         const isHighlighted = activeTags.includes(tech);
                         return (
                           <div key={tech} className={`px-3 py-1.5 rounded-xl text-xs font-bold border flex items-center shadow-sm transition-colors ${isHighlighted
-                              ? "bg-primary text-primary-foreground border-primary"
-                              : "bg-secondary text-secondary-foreground border-border/50"
+                            ? "bg-primary text-primary-foreground border-primary"
+                            : "bg-secondary text-secondary-foreground border-border/50"
                             }`}>
                             <span>{tech}</span>
                           </div>

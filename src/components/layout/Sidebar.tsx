@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 const sections = [
   { name: "About Me", id: "about" },
-  { name: "Skills & Arsenal", id: "skills" },
+  { name: "Tech Stack", id: "skills" },
   { name: "Projects", id: "projects" },
   { name: "Experience", id: "experience" },
   { name: "Education", id: "education" },
