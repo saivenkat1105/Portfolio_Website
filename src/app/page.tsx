@@ -182,7 +182,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. Filterable Projects Engine */}
+      {/* 2. Skills & Tools Tile Layout */}
+      <section id="skills" className="pt-24 scroll-mt-14">
+        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8">Skills & Arsenal</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {Object.entries(skillsMap).map(([category, skills]) => (
+            <div key={category} className="p-8 rounded-[2rem] bg-card border border-border shadow-sm flex flex-col space-y-6">
+              <h3 className="text-lg font-bold tracking-tight text-foreground">{category}</h3>
+              <div className="flex flex-wrap gap-3">
+                {skills.map(skill => (
+                  <div key={skill} className="flex items-center px-4 py-2.5 bg-background border border-border/60 rounded-xl text-sm font-semibold shadow-sm hover:border-primary/50 hover:shadow-md transition-all cursor-default">
+                    {getIconForSkill(skill)}
+                    <span className="ml-2">{skill}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3. Filterable Projects Engine */}
       <section id="projects" className="pt-24 scroll-mt-14">
         <div className="space-y-4 mb-4">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Projects</h1>
@@ -298,26 +319,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. Skills & Tools Tile Layout */}
-      <section id="skills" className="pt-24 scroll-mt-14">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8">Skills & Arsenal</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {Object.entries(skillsMap).map(([category, skills]) => (
-            <div key={category} className="p-8 rounded-[2rem] bg-card border border-border shadow-sm flex flex-col space-y-6">
-              <h3 className="text-lg font-bold tracking-tight text-foreground">{category}</h3>
-              <div className="flex flex-wrap gap-3">
-                {skills.map(skill => (
-                  <div key={skill} className="flex items-center px-4 py-2.5 bg-background border border-border/60 rounded-xl text-sm font-semibold shadow-sm hover:border-primary/50 hover:shadow-md transition-all cursor-default">
-                    {getIconForSkill(skill)}
-                    <span className="ml-2">{skill}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
 
       {/* 5. Experience */}
       <section id="experience" className="pt-24 scroll-mt-14">
