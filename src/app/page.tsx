@@ -189,64 +189,65 @@ export default function Home() {
           <p className="text-muted-foreground max-w-2xl">A showcase of the engineering projects, academic research, and creative coding I have contributed to.</p>
         </div>
 
-        {/* Global Filter Bar */}
-        <div className="sticky top-14 z-30 py-4 bg-background/90 backdrop-blur-xl mb-8 -mx-4 px-4 border-b border-border/40 w-screen md:w-auto md:mx-0 md:px-0 flex flex-col gap-4">
-          {/* All Works / Quick clear */}
-          <div className="flex">
+        {/* Local Sidebar Layout */}
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 relative items-start mt-8">
+          
+          {/* Local Sticky Filter Engine */}
+          <div className="w-full lg:w-48 xl:w-56 shrink-0 lg:sticky lg:top-24 max-h-[calc(100vh-6rem)] overflow-y-auto no-scrollbar lg:pb-8 flex flex-col gap-6">
             <button
               onClick={() => toggleTag("All")}
-              className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${activeTags.length === 0 ? "bg-primary text-primary-foreground shadow-md" : "bg-card border border-border/50 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+              className={`w-full px-4 py-2 rounded-lg text-sm font-bold transition-all text-left border ${activeTags.length === 0 ? "bg-primary/10 text-primary border-primary/30" : "bg-card border-border/50 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
                 }`}
             >
-              All
+              All Projects
             </button>
-          </div>
 
-          {/* Domain List */}
-          <div className="flex flex-col gap-2">
-            <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest pl-1">Project Domains</h3>
-            <div className="overflow-x-auto no-scrollbar flex items-center gap-2 pb-1">
-              {DOMAIN_TAGS.map(tag => {
-                const isActive = activeTags.includes(tag);
-                return (
-                  <button
-                    key={tag}
-                    onClick={() => toggleTag(tag)}
-                    className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${isActive ? "bg-primary text-primary-foreground shadow-md" : "bg-card border border-border/50 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                      }`}
-                  >
-                    {tag}
-                  </button>
-                );
-              })}
+            {/* Domain List */}
+            <div className="flex flex-col gap-3">
+              <h3 className="text-xs font-black text-muted-foreground uppercase tracking-widest pl-2 border-l-2 border-primary/30">Domains</h3>
+              <div className="flex flex-row lg:flex-col gap-1.5 flex-wrap">
+                {DOMAIN_TAGS.map(tag => {
+                  const isActive = activeTags.includes(tag);
+                  return (
+                    <button
+                      key={tag}
+                      onClick={() => toggleTag(tag)}
+                      className={`px-3 py-1.5 lg:py-1 lg:px-2 rounded-md text-[11px] lg:text-sm font-semibold transition-all text-left border lg:border-none ${isActive ? "bg-primary/10 text-primary border-primary/30" : "bg-card border-border/50 lg:bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                        }`}
+                    >
+                      {tag}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Tech Stack List */}
+            <div className="flex flex-col gap-3">
+              <h3 className="text-xs font-black text-muted-foreground uppercase tracking-widest pl-2 border-l-2 border-primary/30">Tech Stack</h3>
+              <div className="flex flex-row lg:flex-col gap-1.5 flex-wrap">
+                {TECH_STACK_TAGS.map(tag => {
+                  const isActive = activeTags.includes(tag);
+                  return (
+                    <button
+                      key={tag}
+                      onClick={() => toggleTag(tag)}
+                      className={`px-3 py-1.5 lg:py-1 lg:px-2 rounded-md text-[11px] lg:text-sm font-semibold transition-all text-left border lg:border-none ${isActive ? "bg-primary/10 text-primary border-primary/30" : "bg-card border-border/50 lg:bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                        }`}
+                    >
+                      {tag}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
-          {/* Tech Stack List */}
-          <div className="flex flex-col gap-2">
-            <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest pl-1">Tech Stack</h3>
-            <div className="overflow-x-auto no-scrollbar flex items-center gap-2 pb-1">
-              {TECH_STACK_TAGS.map(tag => {
-                const isActive = activeTags.includes(tag);
-                return (
-                  <button
-                    key={tag}
-                    onClick={() => toggleTag(tag)}
-                    className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${isActive ? "bg-primary text-primary-foreground shadow-md" : "bg-card border border-border/50 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                      }`}
-                  >
-                    {tag}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-
-        {/* Unified Projects Grid */}
-        <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
-          <AnimatePresence mode="popLayout">
-            {filteredProjects.map((project) => {
+          {/* Unified Projects Grid */}
+          <div className="flex-1 min-w-0 w-full project-grid">
+            <div className="grid gap-6 sm:grid-cols-1 xl:grid-cols-2">
+              <AnimatePresence mode="popLayout">
+                {filteredProjects.map((project) => {
               const isVibe = project.type === 'vibe';
               return (
               <motion.div 
@@ -292,6 +293,8 @@ export default function Home() {
                  <button onClick={() => toggleTag("All")} className="mt-4 text-sm text-primary hover:underline">Clear Filters</button>
              </div>
           )}
+            </div>
+          </div>
         </div>
       </section>
 
