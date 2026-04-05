@@ -14,6 +14,36 @@ export type Project = {
 
 export const allProjects: Project[] = [
   {
+    slug: "jlr-virtual-sensors",
+    title: "Edge ML Virtual Sensors",
+    date: "May 2024 - Present",
+    type: "engineering",
+    shortDescription: "Engineered and deployed industrialized ML models to edge hardware to virtualize thermal sensors with 96% accuracy.",
+    longDescription: "At Jaguar Land Rover, I led the development and deployment of industrialized Machine Learning models directly onto Edge hardware. This system successfully virtualized physical thermal sensors aboard the vehicle platform, achieving a 96% real-time prediction accuracy. I also built a comprehensive ML data pipeline that reduced the overall model delivery and testing cycle from 1 week down to just 4 hours.",
+    tags: ["Machine Learning", "Python"],
+    link: "#"
+  },
+  {
+    slug: "jlr-advanced-controls",
+    title: "Advanced Powertrain EKF & MPC",
+    date: "May 2024 - Present",
+    type: "engineering",
+    shortDescription: "Developing grey-box state estimation algorithms and an MPC architecture for vehicle powertrain hypervisors.",
+    longDescription: "At Jaguar Land Rover, I assisted in developing a supervisory controller (hypervisor) that provides a significant range benefit of 15-35 miles. Currently, my work focuses extensively on classical and modern control theories—specifically developing an Extended Kalman Filter (EKF) for robust grey-box state estimation, and designing a deployable Model Predictive Control (MPC) architecture engineered to simultaneously optimize passenger comfort and vehicle efficiency.",
+    tags: ["Control Systems", "MATLAB", "Simulink"],
+    link: "#"
+  },
+  {
+    slug: "jlr-structural-cae",
+    title: "Structural Optimization (CAE)",
+    date: "July 2022 - May 2024",
+    type: "engineering",
+    shortDescription: "Developed global topology optimization and 1D frontal crash modelling techniques for automotive structures.",
+    longDescription: "As a Structural CAE Analyst at Jaguar Land Rover, I focused on Multi-disciplinary Optimization. I successfully developed topology optimization workflows that satisfied stringent frontal crash requirements while simultaneously reducing overall vehicle structure weight by 10%. Additionally, I advanced Reduced Order Modelling techniques, creating 1D frontal crash models to enable significantly faster turnaround times during early design verification stages.",
+    tags: ["Mechanical Design"],
+    link: "#"
+  },
+  {
     slug: "underwater-localization",
     title: "Acoustic Localization of Underwater Robots",
     date: "May 2021 - May 2022",
