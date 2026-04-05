@@ -60,40 +60,62 @@ const educations = [
   }
 ];
 
+// Slug mapping for Simple Icons
+const skillSlugMap: Record<string, string> = {
+  "Python": "python",
+  "C++": "cplusplus",
+  "C": "c",
+  "SQL": "sqlite",
+  "MATLAB": "mathworks",
+  "Simulink": "mathworks",
+  "Gazebo": "gazebo",
+  "MuJoCo": "openai", // Fallback for specialized robotics
+  "Isaac Sim": "nvidia",
+  "ROS2 (Humble)": "ros",
+  "Nav2": "ros",
+  "SLAM Toolbox": "ros",
+  "Next.js": "nextdotjs",
+  "React": "react",
+  "Pytorch": "pytorch",
+  "Scikit-learn": "scikitlearn",
+  "RL (PPO, SAC, DQN)": "openai",
+  "RAG": "meta",
+  "LLM": "openai"
+};
+
 // Helper to define category-specific styling
 const categoryTheme = {
-  "Languages": {
-    color: "text-blue-600 dark:text-blue-400",
-    bg: "bg-blue-500/10",
-    border: "border-blue-200 dark:border-blue-800/50",
-    icon: <Terminal className="w-3.5 h-3.5" />
+  "Languages": { 
+    color: "text-blue-600 dark:text-blue-400", 
+    accent: "bg-blue-500",
   },
-  "Simulation & Modeling": {
-    color: "text-emerald-600 dark:text-emerald-400",
-    bg: "bg-emerald-500/10",
-    border: "border-emerald-200 dark:border-emerald-800/50",
-    icon: <Box className="w-3.5 h-3.5" />
+  "Simulation & Modeling": { 
+    color: "text-emerald-600 dark:text-emerald-400", 
+    accent: "bg-emerald-500",
   },
-  "Frameworks & Arch": {
-    color: "text-amber-600 dark:text-amber-400",
-    bg: "bg-amber-500/10",
-    border: "border-amber-200 dark:border-amber-800/50",
-    icon: <Cpu className="w-3.5 h-3.5" />
+  "Frameworks & Arch": { 
+    color: "text-amber-600 dark:text-amber-400", 
+    accent: "bg-amber-500",
   },
-  "Machine Learning": {
-    color: "text-violet-600 dark:text-violet-400",
-    bg: "bg-violet-500/10",
-    border: "border-violet-200 dark:border-violet-800/50",
-    icon: <Brain className="w-3.5 h-3.5" />
+  "Machine Learning": { 
+    color: "text-cyan-600 dark:text-cyan-400", 
+    accent: "bg-cyan-500",
   }
 };
 
-function getIconForSkill(skill: string, category: string) {
-  const theme = categoryTheme[category as keyof typeof categoryTheme];
+function getIconForSkill(skill: string) {
+  const slug = skillSlugMap[skill];
+  if (!slug) return <Code className="w-4 h-4 text-black" />;
+  
   return (
-    <div className={`w-6 h-6 flex items-center justify-center shrink-0 rounded-lg ${theme?.bg} ${theme?.color} shadow-sm border ${theme?.border}`}>
-      {theme?.icon}
-    </div>
+    <img 
+      src={`https://cdn.simpleicons.org/${slug}`} 
+      alt={skill}
+      className="w-4 h-4 object-contain"
+      onError={(e) => {
+        (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${skill}&background=white&color=black&size=32&bold=true`;
+      }}
+    />
   );
 }
 
@@ -212,24 +234,38 @@ export default function Home() {
 
       {/* 2. Skills & Tools Tile Layout */}
       <section id="skills" className="pt-24 scroll-mt-14">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8">Tech Stack</h1>
+        <div className="mb-12 space-y-4">
+          <h1 className="text-4xl md:text-5xl font-black tracking-tight">Tech Stack</h1>
+          <p className="text-xl md:text-2xl font-bold text-muted-foreground/80">Learned by coding and building robotics systems.</p>
+        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
           {Object.entries(skillsMap).map(([category, skills]) => {
             const theme = categoryTheme[category as keyof typeof categoryTheme];
             return (
-              <div key={category} className="p-8 rounded-[2.5rem] bg-card border border-border/50 shadow-sm flex flex-col space-y-8 relative overflow-hidden group">
-                <div className={`absolute top-0 left-0 w-1 h-full ${theme?.bg.replace('/10', '/40')}`} />
-                <h3 className={`text-2xl sm:text-3xl font-black tracking-tight ${theme?.color} flex items-center gap-3 mb-6`}>
-                  <span className={`w-8 h-1 rounded-full ${theme?.bg.replace('/10', '/40')}`} />
-                  {category}
-                </h3>
+              <div key={category} className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className={`h-1.5 w-12 rounded-full ${theme?.accent}`} />
+                  <h3 className={`text-2xl font-black tracking-tight ${theme?.color}`}>
+                    {category}
+                  </h3>
+                </div>
+                
                 <div className="flex flex-wrap gap-3">
-                  {skills.map(skill => (
-                    <div key={skill} className={`flex items-center px-4 py-2.5 bg-background border ${theme?.border} rounded-2xl text-sm font-bold shadow-sm hover:shadow-md transition-all cursor-default group/skill`}>
-                      {getIconForSkill(skill, category)}
-                      <span className="ml-3 text-foreground/90">{skill}</span>
-                    </div>
+                  {skills.map((skill) => (
+                    <motion.div
+                      key={skill}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex items-center px-4 py-2 bg-white border border-border shadow-sm rounded-lg group cursor-default"
+                    >
+                      <div className="w-5 h-5 flex items-center justify-center shrink-0">
+                        {getIconForSkill(skill)}
+                      </div>
+                      <span className="ml-3 text-black text-sm font-bold tracking-tight">
+                        {skill}
+                      </span>
+                    </motion.div>
                   ))}
                 </div>
               </div>

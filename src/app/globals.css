@@ -24,7 +24,7 @@
   --card: #ffffff;
   --card-foreground: #09090b;
 
-  --primary: #7c3aed;
+  --primary: #0284c7; /* Steel Blue 600 */
   --primary-foreground: #ffffff;
 
   --muted: #f4f4f5;
@@ -43,7 +43,7 @@
   --card: #09090b;
   --card-foreground: #fafafa;
 
-  --primary: #7c3aed;
+  --primary: #38bdf8; /* Sky Blue 400 for Dark Mode Contrast */
   --primary-foreground: #ffffff;
 
   --muted: #27272a;
