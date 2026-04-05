@@ -77,7 +77,7 @@ export const allProjects: Project[] = [
     slug: "genai-portfolio",
     title: "Generative AI Portfolio Architect",
     date: "2026",
-    type: "vibe",
+    type: "engineering",
     shortDescription: "A showcase of dynamic rendering techniques using foundation models to rapidly prototype a responsive Single Page Application.",
     longDescription: "This very website! Built to showcase the capabilities of generative AI assisted development workflows. It dynamically parses raw text data into an interactive portfolio leveraging modern web technologies. Focuses on minimal, aesthetic layout design combined with rich interactive micro-animations through Framer Motion.",
     tags: ["App Development", "Vibe Coded"],

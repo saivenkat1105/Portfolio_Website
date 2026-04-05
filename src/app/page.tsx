@@ -1,5 +1,5 @@
 "use client";
-import { Mail, FileText, ChevronDown, ExternalLink, X, Layers, Code, Globe } from "lucide-react";
+import { Mail, FileText, ChevronDown, ExternalLink, X, Layers, Code, Globe, Cpu, Box, Brain, Terminal } from "lucide-react";
 
 const GithubIcon = ({ className }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></svg>
@@ -60,11 +60,39 @@ const educations = [
   }
 ];
 
-// Helper to grab logos based on skill name mapping to generic SVGs or standard DevIcons
-function getIconForSkill(skill: string) {
+// Helper to define category-specific styling
+const categoryTheme = {
+  "Languages": {
+    color: "text-blue-600 dark:text-blue-400",
+    bg: "bg-blue-500/10",
+    border: "border-blue-200 dark:border-blue-800/50",
+    icon: <Terminal className="w-3.5 h-3.5" />
+  },
+  "Simulation & Modeling": {
+    color: "text-emerald-600 dark:text-emerald-400",
+    bg: "bg-emerald-500/10",
+    border: "border-emerald-200 dark:border-emerald-800/50",
+    icon: <Box className="w-3.5 h-3.5" />
+  },
+  "Frameworks & Arch": {
+    color: "text-amber-600 dark:text-amber-400",
+    bg: "bg-amber-500/10",
+    border: "border-amber-200 dark:border-amber-800/50",
+    icon: <Cpu className="w-3.5 h-3.5" />
+  },
+  "Machine Learning": {
+    color: "text-violet-600 dark:text-violet-400",
+    bg: "bg-violet-500/10",
+    border: "border-violet-200 dark:border-violet-800/50",
+    icon: <Brain className="w-3.5 h-3.5" />
+  }
+};
+
+function getIconForSkill(skill: string, category: string) {
+  const theme = categoryTheme[category as keyof typeof categoryTheme];
   return (
-    <div className="w-5 h-5 flex items-center justify-center shrink-0 bg-primary/10 text-primary rounded-sm text-[10px] font-black tracking-tighter">
-      {skill.slice(0, 2).toUpperCase()}
+    <div className={`w-6 h-6 flex items-center justify-center shrink-0 rounded-lg ${theme?.bg} ${theme?.color} shadow-sm border ${theme?.border}`}>
+      {theme?.icon}
     </div>
   );
 }
@@ -186,20 +214,27 @@ export default function Home() {
       <section id="skills" className="pt-24 scroll-mt-14">
         <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8">Tech Stack</h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {Object.entries(skillsMap).map(([category, skills]) => (
-            <div key={category} className="p-8 rounded-[2rem] bg-card border border-border shadow-sm flex flex-col space-y-6">
-              <h3 className="text-lg font-bold tracking-tight text-foreground">{category}</h3>
-              <div className="flex flex-wrap gap-3">
-                {skills.map(skill => (
-                  <div key={skill} className="flex items-center px-4 py-2.5 bg-background border border-border/60 rounded-xl text-sm font-semibold shadow-sm hover:border-primary/50 hover:shadow-md transition-all cursor-default">
-                    {getIconForSkill(skill)}
-                    <span className="ml-2">{skill}</span>
-                  </div>
-                ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {Object.entries(skillsMap).map(([category, skills]) => {
+            const theme = categoryTheme[category as keyof typeof categoryTheme];
+            return (
+              <div key={category} className="p-8 rounded-[2.5rem] bg-card border border-border/50 shadow-sm flex flex-col space-y-8 relative overflow-hidden group">
+                <div className={`absolute top-0 left-0 w-1 h-full ${theme?.bg.replace('/10', '/40')}`} />
+                <h3 className={`text-2xl sm:text-3xl font-black tracking-tight ${theme?.color} flex items-center gap-3 mb-6`}>
+                  <span className={`w-8 h-1 rounded-full ${theme?.bg.replace('/10', '/40')}`} />
+                  {category}
+                </h3>
+                <div className="flex flex-wrap gap-3">
+                  {skills.map(skill => (
+                    <div key={skill} className={`flex items-center px-4 py-2.5 bg-background border ${theme?.border} rounded-2xl text-sm font-bold shadow-sm hover:shadow-md transition-all cursor-default group/skill`}>
+                      {getIconForSkill(skill, category)}
+                      <span className="ml-3 text-foreground/90">{skill}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -280,8 +315,8 @@ export default function Home() {
                       transition={{ duration: 0.3 }}
                     >
                       <button onClick={() => setSelectedProject(project)} className={`text-left flex flex-col h-full w-full rounded-[2rem] border border-border shadow-sm transition-all group hover:-translate-y-1 ${isVibe
-                          ? "bg-gradient-to-br from-card to-muted p-8 hover:shadow-xl border-l-4 border-l-primary"
-                          : "bg-card p-8 hover:shadow-xl hover:border-primary/50"
+                        ? "bg-gradient-to-br from-card to-muted p-8 hover:shadow-xl border-l-4 border-l-primary"
+                        : "bg-card p-8 hover:shadow-xl hover:border-primary/50"
                         }`}>
                         <div className="flex justify-between items-start mb-4 w-full">
                           <h3 className="text-2xl font-bold group-hover:text-primary transition-colors pr-4">{project.title}</h3>
@@ -294,8 +329,8 @@ export default function Home() {
                             const isHighlighted = activeTags.includes(tag);
                             return (
                               <span key={tag} className={`inline-flex items-center rounded-lg border px-2.5 py-1 text-[10px] uppercase font-bold tracking-widest shadow-sm transition-colors ${isHighlighted
-                                  ? "bg-primary border-primary text-primary-foreground"
-                                  : (isVibe ? "border-border/50 bg-background/50 text-muted-foreground" : "border-border/50 bg-background text-muted-foreground")
+                                ? "bg-primary border-primary text-primary-foreground"
+                                : (isVibe ? "border-border/50 bg-background/50 text-muted-foreground" : "border-border/50 bg-background text-muted-foreground")
                                 }`}>
                                 {tag}
                               </span>
