@@ -1,46 +1,26 @@
 "use client";
-import { Mail, FileText, User } from "lucide-react";
-import { motion } from "framer-motion";
+import { Mail, FileText, ChevronDown, ExternalLink, X, Layers, Code, Globe } from "lucide-react";
 
-const projects = [
-  {
-    title: "Acoustic Localization of Underwater Robots",
-    date: "May 2021 - May 2022",
-    description: "Developed acoustic sensor systems for real-time and accurate localization with a ±10cm accuracy across 1 km for pipeline robots using guided acoustic waves. Undertaken at IIT Madras.",
-    tags: ["Acoustics", "Robotics", "Localization", "Sensors"],
-    link: "#"
-  },
-  {
-    title: "Autonomous All-terrain Mars Rover",
-    date: "Jan 2018 - May 2020",
-    description: "Led the Traversal team to develop a 5 DOF serial manipulator with compliant gripper using Inverse Kinematics. Built a rocker bogie suspension for all-terrain travel, capable of climbing 45 cm heights and 30° slopes.",
-    tags: ["Robotics", "Kinematics", "Mechatronics", "Control Systems"],
-    link: "#"
-  },
-  {
-    title: "Cerebral Palsy Assist Wheelchair",
-    date: "July 2019 - July 2020",
-    description: "Mechatronics lead for developing pediatric wheelchairs with body movement-based control systems to assist patients diagnosed with cerebral palsy at IIT Madras.",
-    tags: ["Mechatronics", "Control Systems", "Healthcare"],
-    link: "#"
-  }
-];
+const GithubIcon = ({ className }: { className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" /><path d="M9 18c-4.51 2-5-2-7-2" /></svg>
+);
 
-const vibeCodedProjects = [
-  {
-    title: "Generative AI Portfolio Architect",
-    date: "2026",
-    description: "A showcase of dynamic rendering techniques using foundation models. Rapidly prototyped a responsive Single Page Application with dynamic theme injection and interactive intersections.",
-    tags: ["Generative AI", "React", "Next.js", "AI-Assisted Dev"],
-    link: "#"
-  }
-];
+const LinkedinIcon = ({ className }: { className?: string }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" /><rect width="4" height="12" x="2" y="9" /><circle cx="4" cy="4" r="2" /></svg>
+);
+import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
+import { allProjects, getProjectsByType, Project } from "@/data/projects";
+
+// Defined strict taxonomy for tagging
+const DOMAIN_TAGS = ["Vibe Coded", "Robotics", "Machine Learning", "App Development", "Control Systems", "Mechanical Design"];
+const TECH_STACK_TAGS = ["Python", "C++", "MATLAB", "Simulink", "ROS2", "Pytorch", "RL", "Nav2", "Fusion 360"];
 
 const skillsMap = {
-  "Languages": ["Python", "C++"],
-  "Modeling & Simulation": ["MATLAB", "Simulink", "Gazebo", "MuJoCo", "Isaac Sim"],
-  "Frameworks": ["ROS2 (Humble)", "Nav2", "SLAM Toolbox"],
-  "Machine Learning": ["Pytorch", "Scikit-learn", "Reinforcement Learning (PPO, SAC, DQN)", "RAG", "LLM"]
+  "Languages": ["Python", "C++", "C", "SQL"],
+  "Simulation & Modeling": ["MATLAB", "Simulink", "Gazebo", "MuJoCo", "Isaac Sim"],
+  "Frameworks & Arch": ["ROS2 (Humble)", "Nav2", "SLAM Toolbox", "Next.js", "React"],
+  "Machine Learning": ["Pytorch", "Scikit-learn", "RL (PPO, SAC, DQN)", "RAG", "LLM"]
 };
 
 const experiences = [
@@ -80,171 +60,264 @@ const educations = [
   }
 ];
 
-export default function Home() {
+// Helper to grab logos based on skill name mapping to generic SVGs or standard DevIcons
+function getIconForSkill(skill: string) {
   return (
-    <div className="flex flex-col space-y-24 md:space-y-32 pb-24">
-      {/* 1. Introduction */}
-      <section id="introduction" className="flex flex-col md:flex-row items-center justify-between gap-8 pt-8 md:pt-16 scroll-mt-14">
+    <div className="w-5 h-5 flex items-center justify-center shrink-0 bg-primary/10 text-primary rounded-sm text-[10px] font-black tracking-tighter">
+      {skill.slice(0, 2).toUpperCase()}
+    </div>
+  );
+}
+
+export default function Home() {
+  const [activeTags, setActiveTags] = useState<string[]>([]);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+
+  // Listen for navigation events to safely discard the modal popup
+  useEffect(() => {
+    const handleClose = () => setSelectedProject(null);
+    document.addEventListener("close-project-modal", handleClose);
+    return () => {
+      document.removeEventListener("close-project-modal", handleClose);
+    };
+  }, []);
+
+  const toggleTag = (tag: string) => {
+    if (tag === "All") {
+      setActiveTags([]);
+      return;
+    }
+    setActiveTags(prev =>
+      prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
+    );
+  };
+
+  const getFilteredAndSorted = (projects: Project[]) => {
+    let result = projects;
+    
+    if (activeTags.length > 0) {
+      result = projects
+        .map(p => ({ project: p, matches: activeTags.filter(tag => p.tags.includes(tag)).length }))
+        .filter(p => p.matches > 0)
+        .sort((a, b) => b.matches - a.matches)
+        .map(p => p.project);
+    }
+
+    const engineering = result.filter(p => p.type !== 'vibe');
+    const vibe = result.filter(p => p.type === 'vibe');
+    return [...engineering, ...vibe];
+  };
+
+  const filteredProjects = getFilteredAndSorted(allProjects);
+
+  return (
+    <div className="flex flex-col pb-24">
+      {/* 1. Unified Intro & About Me */}
+      <section id="about" className="min-h-[calc(100vh-3.5rem)] flex flex-col justify-center relative pt-12 pb-24 scroll-mt-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="flex-1"
+          className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(280px,350px)] gap-16 items-center w-full"
         >
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl">
-            Sai Venkat Gunda
-          </h1>
-          <h2 className="mt-4 text-xl font-bold tracking-tight text-primary sm:text-2xl md:text-3xl">
-            Advanced Controls & ML Engineer
-          </h2>
-          <p className="mt-6 max-w-2xl text-base text-muted-foreground leading-relaxed sm:text-lg">
-            I specialize in the full engineering lifecycle: translating complex system requirements into mathematical models, testing them in simulation, and deploying data-driven control strategies to hardware. Currently targeting roles in the Physical AI space that require a deep mix of physical modeling, simulation, and applied machine learning.
-          </p>
-
-          <div className="mt-8 flex flex-wrap gap-4">
-            <a
-              href="resume.pdf"
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-3 text-sm font-medium text-primary-foreground shadow transition-colors hover:bg-primary/90"
-            >
-              <FileText className="mr-2 h-4 w-4" />
-              Get Resume
-            </a>
-            <a
-              href="mailto:1105saivenkat@gmail.com"
-              className="inline-flex items-center justify-center rounded-md border border-input bg-background px-6 py-3 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-            >
-              <Mail className="mr-2 h-4 w-4" />
-              Send Mail
-            </a>
-          </div>
-        </motion.div>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="shrink-0"
-        >
-          {/* Profile Photo Placeholder */}
-          <div className="hidden lg:flex justify-end items-start">
-            <div className="w-48 md:w-64 aspect-square rounded-2xl bg-muted border border-border shadow-sm flex items-center justify-center relative overflow-hidden group">
-              <img src="profile.jpg" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-6">
-                <span className="text-white text-sm font-medium text-center">The Casual Look</span>
-              </div>
+          <div className="space-y-8">
+            <div>
+              <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl/tight">
+                Sai Venkat Gunda
+              </h1>
+              <h2 className="mt-4 text-2xl font-bold tracking-tight text-primary sm:text-3xl">
+                Advanced Controls & ML Engineer
+              </h2>
             </div>
-          </div>
-        </motion.div>
-      </section>
 
-      {/* 2. About Me */}
-      <section id="about" className="pt-16 scroll-mt-14">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">About Me</h1>
-
-          <div className="mt-8 grid grid-cols-1 lg:grid-cols-[1fr_minmax(250px,300px)] gap-10">
-            <div className="space-y-6 text-muted-foreground leading-relaxed">
+            <div className="space-y-6 text-muted-foreground leading-relaxed text-lg pb-8 border-b border-border/50">
               <p>
-                Hello! I am Sai Venkat Gunda, an Advanced Controls and ML Engineer with over 4 years of industry experience. I am deeply passionate about bridging the gap between theoretical models and real-world physical systems.
+                Hello! I am deeply passionate about bridging the gap between theoretical models and real-world physical systems. I specialize in the full engineering lifecycle: translating complex system requirements into mathematical models, testing them in simulation frameworks (MATLAB/Simulink, Gazebo, MuJoCo), and deploying data-driven control strategies to hardware.
               </p>
               <p>
-                My expertise spans the entire engineering product lifecycle. I take complex system requirements, model them mathematically, rigorously test them using advanced simulation frameworks (like MATLAB/Simulink, Gazebo, MuJoCo), and finally deploy these data-driven control strategies onto physical hardware (Edge AI).
-              </p>
-              <p>
-                Currently, my core focus is on the rapidly evolving Physical AI space. I want to build systems that interact intelligently with the physical world, pushing the boundaries of what autonomous and control systems can accomplish.
+                Currently, my core focus is on the rapidly evolving Physical AI space. I want to build systems that interact intelligently with the physical world, pushing the boundaries of what autonomous systems can accomplish by blending traditional mechatronics with Edge AI.
               </p>
             </div>
-            <div className="hidden lg:flex justify-end items-start">
-              <div className="w-full aspect-square rounded-2xl bg-muted border border-border shadow-sm flex items-center justify-center relative overflow-hidden group">
-                <img src="profile_2.jpg" className="w-full h-full object-cover" />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity p-6">
-                  <span className="text-white text-sm font-medium text-center"><br />Ready to fly away</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </section>
 
-      {/* 3. Projects */}
-      <section id="projects" className="pt-16 scroll-mt-14">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Projects</h1>
-          <p className="mt-4 text-muted-foreground">A showcase of the engineering projects and academic research I have contributed to.</p>
-
-          <div className="mt-8 grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
-            {projects.map((project, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ y: -5 }}
-                className="flex flex-col justify-between rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md"
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="resume.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-4 text-sm font-bold tracking-wide text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-105"
               >
-                <div>
-                  <h3 className="text-xl font-bold">{project.title}</h3>
-                  <p className="mt-1 text-sm text-primary">{project.date}</p>
-                  <p className="mt-4 text-muted-foreground text-sm leading-relaxed">{project.description}</p>
-                </div>
-                <div className="mt-6 flex items-center justify-between">
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span key={tag} className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                <FileText className="mr-2 h-4 w-4" /> View Full Resume
+              </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center justify-center rounded-xl border border-input bg-card px-6 py-4 text-sm font-bold tracking-wide shadow-sm transition-all hover:bg-accent hover:text-accent-foreground hover:scale-105"
+              >
+                <Mail className="mr-2 h-4 w-4" /> Get in Touch
+              </a>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center justify-center gap-6 mt-8 lg:mt-0">
+            <div className="w-64 md:w-full aspect-square rounded-[2rem] bg-muted border border-border shadow-xl overflow-hidden relative rotate-2 hover:rotate-0 transition-transform duration-500 will-change-transform group">
+              <img src="profile.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Casual Look" />
+              <div className="absolute inset-0 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-t from-black/60 to-transparent">
+                <span className="text-white text-xs font-bold tracking-widest uppercase">The Casual Look</span>
+              </div>
+              <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-[2rem]" />
+            </div>
+            <div className="w-48 aspect-square rounded-[2rem] bg-muted border border-border shadow-xl overflow-hidden relative -mt-24 lg:-mt-16 ml-32 lg:-ml-12 -rotate-6 hover:rotate-0 transition-transform duration-500 hidden md:block group z-10 hover:z-20">
+              <img src="profile_2.jpg" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Ready to fly away" />
+              <div className="absolute inset-0 flex items-end justify-center pb-4 opacity-0 group-hover:opacity-100 transition-opacity bg-gradient-to-t from-black/60 to-transparent">
+                <span className="text-white text-xs font-bold tracking-widest uppercase">Ready to fly away</span>
+              </div>
+              <div className="absolute inset-0 ring-1 ring-inset ring-black/10 rounded-[2rem]" />
+            </div>
           </div>
         </motion.div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce text-muted-foreground/50">
+          <ChevronDown className="h-6 w-6" />
+        </div>
       </section>
 
-      {/* 4. Skills & Tools */}
-      <section id="skills" className="pt-16 scroll-mt-14">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Skills & Tools</h1>
-          <p className="mt-4 text-muted-foreground">The technical stack and simulation tools I use on a daily basis.</p>
+      {/* 2. Filterable Projects Engine */}
+      <section id="projects" className="pt-24 scroll-mt-14">
+        <div className="space-y-4 mb-4">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Projects</h1>
+          <p className="text-muted-foreground max-w-2xl">A showcase of the engineering projects, academic research, and creative coding I have contributed to.</p>
+        </div>
 
-          <div className="mt-8 space-y-8">
-            {Object.entries(skillsMap).map(([category, skills]) => (
-              <div key={category}>
-                <h3 className="text-xl font-semibold mb-4">{category}</h3>
-                <div className="flex flex-wrap gap-3">
-                  {skills.map((skill) => (
-                    <div
-                      key={skill}
-                      className="flex items-center rounded-full border border-border bg-card px-4 py-2 text-sm font-medium shadow-sm transition-colors hover:bg-accent hover:text-accent-foreground"
-                    >
-                      {skill}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+        {/* Global Filter Bar */}
+        <div className="sticky top-14 z-30 py-4 bg-background/90 backdrop-blur-xl mb-8 -mx-4 px-4 border-b border-border/40 w-screen md:w-auto md:mx-0 md:px-0 flex flex-col gap-4">
+          {/* All Works / Quick clear */}
+          <div className="flex">
+            <button
+              onClick={() => toggleTag("All")}
+              className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${activeTags.length === 0 ? "bg-primary text-primary-foreground shadow-md" : "bg-card border border-border/50 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                }`}
+            >
+              All
+            </button>
           </div>
-        </motion.div>
+
+          {/* Domain List */}
+          <div className="flex flex-col gap-2">
+            <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest pl-1">Project Domains</h3>
+            <div className="overflow-x-auto no-scrollbar flex items-center gap-2 pb-1">
+              {DOMAIN_TAGS.map(tag => {
+                const isActive = activeTags.includes(tag);
+                return (
+                  <button
+                    key={tag}
+                    onClick={() => toggleTag(tag)}
+                    className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${isActive ? "bg-primary text-primary-foreground shadow-md" : "bg-card border border-border/50 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      }`}
+                  >
+                    {tag}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Tech Stack List */}
+          <div className="flex flex-col gap-2">
+            <h3 className="text-xs font-bold text-muted-foreground uppercase tracking-widest pl-1">Tech Stack</h3>
+            <div className="overflow-x-auto no-scrollbar flex items-center gap-2 pb-1">
+              {TECH_STACK_TAGS.map(tag => {
+                const isActive = activeTags.includes(tag);
+                return (
+                  <button
+                    key={tag}
+                    onClick={() => toggleTag(tag)}
+                    className={`shrink-0 px-4 py-1.5 rounded-full text-sm font-semibold transition-all ${isActive ? "bg-primary text-primary-foreground shadow-md" : "bg-card border border-border/50 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
+                      }`}
+                  >
+                    {tag}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* Unified Projects Grid */}
+        <div className="grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project) => {
+              const isVibe = project.type === 'vibe';
+              return (
+              <motion.div 
+                key={project.slug}
+                layout
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9, filter: "blur(4px)" }}
+                transition={{ duration: 0.3 }}
+              >
+                <button onClick={() => setSelectedProject(project)} className={`text-left flex flex-col h-full w-full rounded-[2rem] border border-border shadow-sm transition-all group hover:-translate-y-1 ${
+                  isVibe 
+                    ? "bg-gradient-to-br from-card to-muted p-8 hover:shadow-xl border-l-4 border-l-primary" 
+                    : "bg-card p-8 hover:shadow-xl hover:border-primary/50"
+                  }`}>
+                  <div className="flex justify-between items-start mb-4 w-full">
+                    <h3 className="text-2xl font-bold group-hover:text-primary transition-colors pr-4">{project.title}</h3>
+                    <ExternalLink className="h-5 w-5 text-muted-foreground/30 group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0 shrink-0" />
+                  </div>
+                  <p className={`mt-1 text-xs font-mono mb-6 ${isVibe ? 'text-primary' : 'text-muted-foreground'}`}>{project.date}</p>
+                  <p className="text-muted-foreground text-sm leading-relaxed flex-1">{project.shortDescription}</p>
+                  <div className="mt-8 flex flex-wrap gap-2">
+                    {project.tags.map(tag => {
+                      const isHighlighted = activeTags.includes(tag);
+                      return (
+                        <span key={tag} className={`inline-flex items-center rounded-lg border px-2.5 py-1 text-[10px] uppercase font-bold tracking-widest shadow-sm transition-colors ${
+                          isHighlighted 
+                            ? "bg-primary border-primary text-primary-foreground" 
+                            : (isVibe ? "border-border/50 bg-background/50 text-muted-foreground" : "border-border/50 bg-background text-muted-foreground")
+                        }`}>
+                          {tag}
+                        </span>
+                      );
+                    })}
+                  </div>
+                </button>
+              </motion.div>
+            )})}
+          </AnimatePresence>
+          {filteredProjects.length === 0 && (
+             <div className="col-span-full py-12 px-6 rounded-[2rem] border border-dashed border-border flex flex-col items-center justify-center text-center">
+                 <p className="text-muted-foreground">No projects found matching the selected tags.</p>
+                 <button onClick={() => toggleTag("All")} className="mt-4 text-sm text-primary hover:underline">Clear Filters</button>
+             </div>
+          )}
+        </div>
+      </section>
+
+      {/* 4. Skills & Tools Tile Layout */}
+      <section id="skills" className="pt-24 scroll-mt-14">
+        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl mb-8">Skills & Arsenal</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {Object.entries(skillsMap).map(([category, skills]) => (
+            <div key={category} className="p-8 rounded-[2rem] bg-card border border-border shadow-sm flex flex-col space-y-6">
+              <h3 className="text-lg font-bold tracking-tight text-foreground">{category}</h3>
+              <div className="flex flex-wrap gap-3">
+                {skills.map(skill => (
+                  <div key={skill} className="flex items-center px-4 py-2.5 bg-background border border-border/60 rounded-xl text-sm font-semibold shadow-sm hover:border-primary/50 hover:shadow-md transition-all cursor-default">
+                    {getIconForSkill(skill)}
+                    <span className="ml-2">{skill}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* 5. Experience */}
-      <section id="experience" className="pt-16 scroll-mt-14">
+      <section id="experience" className="pt-24 scroll-mt-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -254,23 +327,26 @@ export default function Home() {
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Experience</h1>
           <p className="mt-4 text-muted-foreground">My professional journey and career milestones.</p>
 
-          <div className="mt-8 space-y-12">
+          <div className="mt-8 space-y-12 bg-card p-8 rounded-[2rem] border border-border shadow-sm">
             {experiences.map((exp, index) => (
               <div key={index} className="relative pl-6 sm:pl-8">
                 {index !== experiences.length - 1 && (
                   <div className="absolute left-0 top-3 bottom-[-3rem] w-px bg-border" />
                 )}
-                <div className="absolute left-[-4px] top-2 h-2.5 w-2.5 rounded-full bg-primary ring-4 ring-background" />
+                <div className="absolute left-[-4px] top-2 h-2.5 w-2.5 rounded-full bg-primary ring-4 ring-background shadow-sm" />
 
                 <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between">
                   <h3 className="text-xl font-bold">{exp.role}</h3>
-                  <span className="mt-1 text-sm text-muted-foreground sm:mt-0">{exp.date}</span>
+                  <span className="mt-1 text-sm font-mono text-muted-foreground sm:mt-0 bg-background px-3 py-1 rounded-md border border-border/50">{exp.date}</span>
                 </div>
-                <p className="font-medium text-primary">{exp.company} &mdash; {exp.location}</p>
+                <p className="font-semibold text-primary mt-2">{exp.company} &mdash; {exp.location}</p>
 
-                <ul className="mt-4 list-outside list-disc space-y-2 pl-4 text-muted-foreground">
+                <ul className="mt-6 list-outside space-y-3 text-muted-foreground">
                   {exp.bullets.map((bullet, idx) => (
-                    <li key={idx} className="text-sm leading-relaxed">{bullet}</li>
+                    <li key={idx} className="text-sm leading-relaxed flex items-start">
+                      <span className="mr-3 mt-1.5 h-1.5 w-1.5 rounded-full bg-primary/30 shrink-0" />
+                      {bullet}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -280,7 +356,7 @@ export default function Home() {
       </section>
 
       {/* 6. Education */}
-      <section id="education" className="pt-16 scroll-mt-14">
+      <section id="education" className="pt-24 scroll-mt-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -290,16 +366,16 @@ export default function Home() {
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Education</h1>
           <p className="mt-4 text-muted-foreground">My academic background.</p>
 
-          <div className="mt-8 space-y-12">
+          <div className="mt-8 space-y-12 bg-card p-8 rounded-[2rem] border border-border shadow-sm">
             {educations.map((edu, index) => (
               <div key={index} className="relative pl-6 sm:pl-8">
-                <div className="absolute left-[-4px] top-2 h-2.5 w-2.5 rounded-full bg-primary ring-4 ring-background" />
+                <div className="absolute left-[-4px] top-2 h-2.5 w-2.5 rounded-full bg-primary ring-4 ring-background shadow-sm" />
 
                 <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between">
                   <h3 className="text-xl font-bold">{edu.institution}</h3>
-                  <span className="mt-1 text-sm text-muted-foreground sm:mt-0">{edu.date}</span>
+                  <span className="mt-1 text-sm font-mono text-muted-foreground sm:mt-0 bg-background px-3 py-1 rounded-md border border-border/50">{edu.date}</span>
                 </div>
-                <p className="font-medium text-primary mt-1">{edu.degree}</p>
+                <p className="font-semibold text-primary mt-3">{edu.degree}</p>
                 <p className="mt-2 text-sm text-muted-foreground">{edu.score} &mdash; {edu.location}</p>
               </div>
             ))}
@@ -307,43 +383,141 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* 7. Vibe Coded Projects */}
-      <section id="vibe-coded" className="pt-16 scroll-mt-14">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Vibe Coded Projects</h1>
-          <p className="mt-4 text-muted-foreground">Experimental implementations, generative AI workflows, and creative coding built entirely from vibes.</p>
+      {/* 7. Contact Section */}
+      <section id="contact" className="pt-32 pb-4 scroll-mt-14 mt-12 border-t border-border">
+        <div className="flex flex-col items-center justify-center text-center space-y-8 max-w-2xl mx-auto py-16 bg-card rounded-[3rem] border border-border shadow-sm relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background pointer-events-none" />
+          <h1 className="text-5xl font-extrabold tracking-tight z-10">Get in Touch</h1>
+          <p className="text-muted-foreground text-lg z-10 max-w-md px-4">
+            Always open for a chat about physical AI systems, robotics, or creative software engineering.
+          </p>
+          <a href="mailto:1105saivenkat@gmail.com" className="z-10 px-8 py-4 bg-primary text-primary-foreground font-bold tracking-wide rounded-2xl shadow-xl shadow-primary/25 hover:-translate-y-1 transition-all duration-300">
+            Drop an Email
+          </a>
 
-          <div className="mt-8 grid gap-6 sm:grid-cols-1 lg:grid-cols-2">
-            {vibeCodedProjects.map((project, idx) => (
-              <motion.div
-                key={idx}
-                whileHover={{ y: -5 }}
-                className="flex flex-col justify-between rounded-xl border border-border bg-card p-6 shadow-sm transition-all hover:shadow-md border-l-4 border-l-primary"
-              >
-                <div>
-                  <h3 className="text-xl font-bold">{project.title}</h3>
-                  <p className="mt-1 text-sm text-primary">{project.date}</p>
-                  <p className="mt-4 text-muted-foreground text-sm leading-relaxed">{project.description}</p>
-                </div>
-                <div className="mt-6 flex items-center justify-between">
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span key={tag} className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground">
-                        {tag}
-                      </span>
-                    ))}
+          <div className="pt-12 text-sm text-muted-foreground flex gap-8 z-10">
+            <a href="https://github.com/saivenkat1105" target="_blank" rel="noreferrer" className="flex items-center hover:text-primary transition-colors font-medium">
+              <GithubIcon className="w-4 h-4 mr-2" /> GitHub
+            </a>
+            <a href="https://linkedin.com/in/sai-venkat-gunda" target="_blank" rel="noreferrer" className="flex items-center hover:text-primary transition-colors font-medium">
+              <LinkedinIcon className="w-4 h-4 mr-2" /> LinkedIn
+            </a>
+            <a href="resume.pdf" target="_blank" rel="noreferrer" className="flex items-center hover:text-primary transition-colors font-medium">
+              <FileText className="w-4 h-4 mr-2" /> Resume
+            </a>
+          </div>
+        </div>
+
+        <div className="mt-16 text-center text-xs text-muted-foreground/60 flex flex-col sm:flex-row justify-center items-center gap-2">
+          <span>Built with Next.js & Tailwind CSS.</span>
+          <span className="hidden sm:inline">&bull;</span>
+          <span>Static Deployment via GitHub Actions.</span>
+        </div>
+      </section>
+
+      {/* 8. Project Detail Overlay Popup */}
+      <AnimatePresence>
+        {selectedProject && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed top-14 bottom-0 left-0 right-0 z-40 flex justify-end"
+          >
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-background/50 backdrop-blur-sm cursor-pointer"
+              onClick={() => setSelectedProject(null)}
+            />
+
+            {/* Modal Body */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              className="relative w-full md:max-w-2xl lg:max-w-4xl h-full bg-background border-l border-border shadow-[0_0_80px_rgba(0,0,0,0.1)] flex flex-col"
+            >
+              {/* Sticky Header with Close Button */}
+              <div className="sticky top-0 z-20 flex justify-end items-center p-4 md:px-6 md:py-4 bg-background/90 backdrop-blur-xl border-b border-border/40 shrink-0">
+                <button
+                  onClick={() => setSelectedProject(null)}
+                  className="p-2 rounded-full bg-muted text-muted-foreground hover:bg-primary hover:text-primary-foreground transition-all hover:rotate-90 pointer-events-auto"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </div>
+
+              {/* Modal Content layout */}
+              <div className="p-4 md:p-6 flex-1 min-h-0 overflow-y-auto md:overflow-hidden">
+                <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-[minmax(0,1fr)_auto] gap-4 h-full max-w-5xl mx-auto">
+
+                  {/* Block 1: Intro */}
+                  <div className="flex flex-col space-y-3 p-6 rounded-[2rem] bg-card border border-border shadow-sm overflow-hidden flex-1 min-h-0">
+                    <h1 className="text-2xl font-extrabold tracking-tight xl:text-3xl shrink-0">{selectedProject.title}</h1>
+                    <p className="font-mono text-xs text-muted-foreground shrink-0">{selectedProject.date}</p>
+                    <div className="text-muted-foreground mt-2 leading-relaxed whitespace-pre-line overflow-y-auto text-sm shrink pr-2">
+                      {selectedProject.longDescription}
+                    </div>
+                  </div>
+
+                  {/* Block 2: Visual */}
+                  <div className="relative w-full rounded-[2rem] bg-muted border border-border overflow-hidden flex items-center justify-center p-6 group h-full min-h-[200px]">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-accent to-background opacity-50" />
+                    <Layers className="h-16 w-16 text-muted-foreground opacity-20 group-hover:scale-110 transition-transform duration-500 ease-out" />
+                    <div className="absolute bottom-4 left-0 right-0 text-center">
+                      <span className="text-xs font-semibold px-3 py-1.5 bg-background/50 backdrop-blur-md rounded-full text-foreground border border-border/50">Media Placeholder</span>
+                    </div>
+                  </div>
+
+                  {/* Block 3: Tech Stack */}
+                  <div className="p-6 rounded-[2rem] bg-card border border-border shadow-sm flex flex-col space-y-4 overflow-hidden h-full">
+                    <div className="flex items-center space-x-2 shrink-0">
+                      <Code className="h-5 w-5 text-primary" />
+                      <h3 className="text-lg font-bold tracking-tight">Tech Stack</h3>
+                    </div>
+                    <div className="flex flex-wrap gap-2 overflow-y-auto content-start pr-2">
+                      {selectedProject.tags.map((tech) => {
+                        const isHighlighted = activeTags.includes(tech);
+                        return (
+                          <div key={tech} className={`px-3 py-1.5 rounded-xl text-xs font-bold border flex items-center shadow-sm transition-colors ${isHighlighted
+                              ? "bg-primary text-primary-foreground border-primary"
+                              : "bg-secondary text-secondary-foreground border-border/50"
+                            }`}>
+                            <span>{tech}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Block 4: Links */}
+                  <div className="p-6 rounded-[2rem] bg-card border border-border shadow-sm flex flex-col space-y-4 h-full">
+                    <h3 className="text-lg font-bold tracking-tight shrink-0">Access & Links</h3>
+
+                    <div className="flex flex-col space-y-3 mt-auto h-full justify-end">
+                      {selectedProject.repo ? (
+                        <a href={selectedProject.repo} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-xl bg-background border border-input shadow-sm px-4 py-2.5 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors group">
+                          <GithubIcon className="mr-2 h-4 w-4 group-hover:text-primary transition-colors" /> Source Code
+                        </a>
+                      ) : null}
+                      {selectedProject.link !== '#' ? (
+                        <a href={selectedProject.link} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground shadow px-4 py-2.5 text-sm font-medium hover:bg-primary/90 transition-colors group">
+                          <Globe className="mr-2 h-4 w-4 group-hover:animate-pulse" /> Live Preview
+                        </a>
+                      ) : (
+                        <div className="inline-flex items-center justify-center rounded-xl bg-muted text-muted-foreground border border-border/50 px-4 py-2.5 text-sm font-medium">
+                          Internal / Offline Project
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-      </section>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

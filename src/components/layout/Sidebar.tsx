@@ -3,13 +3,12 @@ import { useActiveSection } from "@/hooks/useActiveSection";
 import { cn } from "@/lib/utils";
 
 const sections = [
-  { name: "Introduction", id: "introduction" },
   { name: "About Me", id: "about" },
   { name: "Projects", id: "projects" },
-  { name: "Skills & Tools", id: "skills" },
+  { name: "Skills & Arsenal", id: "skills" },
   { name: "Experience", id: "experience" },
   { name: "Education", id: "education" },
-  { name: "Vibe Coded Projects", id: "vibe-coded" }
+  { name: "Contact", id: "contact" }
 ];
 
 export function Sidebar() {
@@ -20,13 +19,13 @@ export function Sidebar() {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
-      // Update hash without jump
       window.history.pushState(null, '', `#${id}`);
+      document.dispatchEvent(new CustomEvent("close-project-modal"));
     }
   };
 
   return (
-    <aside className="hidden md:block border-r border-border w-[240px] shrink-0 sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto px-4 py-8">
+    <aside className="hidden md:block border-r border-border w-[240px] shrink-0 sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto px-4 py-8 relative z-50 bg-background">
       <div className="flex flex-col gap-1 text-sm">
         {sections.map((sec) => {
           const isActive = activeSection === sec.id;

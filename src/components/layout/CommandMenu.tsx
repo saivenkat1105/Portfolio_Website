@@ -3,9 +3,11 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { Command } from "cmdk";
 import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export function CommandMenu() {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -25,16 +27,16 @@ export function CommandMenu() {
     }
   }, []);
 
-  const runCommand = React.useCallback((command: () => void) => {
-    setOpen(false);
-    command();
-  }, []);
-
   const scrollTo = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-      window.history.pushState(null, '', `#${id}`);
+    setOpen(false);
+    if (window.location.pathname !== '/') {
+        router.push(`/#${id}`);
+    } else {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, '', `#${id}`);
+        }
     }
   };
 
@@ -42,6 +44,7 @@ export function CommandMenu() {
 
   return (
     <div className="fixed inset-0 z-[100] bg-background/80 backdrop-blur-sm" onClick={() => setOpen(false)}>
+      {/* Container div must not block pointer events completely, just allow pass through for the mask click */}
       <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[20vh] pointer-events-none">
         <Command 
           className="w-[90vw] max-w-lg rounded-xl border border-border bg-card text-card-foreground shadow-2xl overflow-hidden pointer-events-auto"
@@ -61,46 +64,46 @@ export function CommandMenu() {
             
             <Command.Group heading="Navigation">
               <Command.Item 
-                className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => scrollTo("introduction"))}
-              >
-                Introduction
-              </Command.Item>
-              <Command.Item 
-                className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => scrollTo("about"))}
+                className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                onSelect={() => scrollTo("about")}
               >
                 About Me
               </Command.Item>
               <Command.Item 
-                className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => scrollTo("projects"))}
+                className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                onSelect={() => scrollTo("projects")}
               >
-                Projects
+                Engineering Projects
               </Command.Item>
               <Command.Item 
-                className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => scrollTo("skills"))}
+                className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                onSelect={() => scrollTo("skills")}
               >
-                Skills & Tools
+                Skills & Arsenal
               </Command.Item>
               <Command.Item 
-                className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => scrollTo("experience"))}
+                className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                onSelect={() => scrollTo("experience")}
               >
                 Experience
               </Command.Item>
               <Command.Item 
-                className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => scrollTo("education"))}
+                className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                onSelect={() => scrollTo("education")}
               >
                 Education
               </Command.Item>
               <Command.Item 
-                className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-                onSelect={() => runCommand(() => scrollTo("vibe-coded"))}
+                className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                onSelect={() => scrollTo("vibe-coded")}
               >
                 Vibe Coded Projects
+              </Command.Item>
+              <Command.Item 
+                className="relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                onSelect={() => scrollTo("contact")}
+              >
+                Contact
               </Command.Item>
             </Command.Group>
           </Command.List>
