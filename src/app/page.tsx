@@ -14,8 +14,8 @@ import { allProjects, getProjectsByType, Project } from "@/data/projects";
 import ReactMarkdown from "react-markdown";
 
 // Defined strict taxonomy for tagging
-const DOMAIN_TAGS = ["Vibe Coded", "Robotics", "Machine Learning", "App Development", "Control Systems", "Mechanical Design"];
-const TECH_STACK_TAGS = ["Python", "C++", "MATLAB", "Simulink", "ROS2", "Pytorch", "RL", "Nav2", "Fusion 360"];
+const DOMAIN_TAGS = ["Robotics", "Machine Learning", "Control Systems", "Mechanical Design", "Mathematical Modelling", "Vibe Coded", "App Development"];
+const TECH_STACK_TAGS = ["Python", "C++", "MATLAB", "Simulink", "ROS2", "MuJoCo", "Pytorch", "RL", "Fusion 360"];
 
 const skillsMap = {
   "Languages": ["Python", "C++"],
@@ -110,7 +110,7 @@ const LOCAL_ICONS: Record<string, string> = {
 
 function getIconForSkill(skill: string) {
   const slug = skillSlugMap[skill];
-  
+
   // 1. Priority Local Load for high-fidelity brand icons
   if (LOCAL_ICONS[skill]) {
     const ext = LOCAL_ICONS[skill];
@@ -627,78 +627,110 @@ export default function Home() {
 
               {/* Modal Content layout */}
               <div className="p-4 md:p-6 flex-1 min-h-0 overflow-y-auto md:overflow-hidden">
-                <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-[minmax(0,1fr)_auto] gap-4 h-full max-w-5xl mx-auto">
+                {(() => {
+                  const hasLinks = selectedProject.link !== "#" || !!selectedProject.repo || (selectedProject.links && selectedProject.links.length > 0);
+                  return (
+                    <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-[minmax(0,1fr)_auto] gap-4 h-full max-w-5xl mx-auto">
 
-                  {/* Block 1: Intro */}
-                  <div className="flex flex-col space-y-3 p-6 rounded-[2rem] bg-card border border-border shadow-sm overflow-hidden flex-1 min-h-0">
-                    <h1 className="text-2xl font-extrabold tracking-tight xl:text-3xl shrink-0">{selectedProject.title}</h1>
-                    <p className="font-mono text-xs text-muted-foreground shrink-0">{selectedProject.date}</p>
-                    <div className="text-muted-foreground mt-2 leading-relaxed overflow-y-auto text-sm shrink pr-2">
-                      <ReactMarkdown
-                        components={{
-                          p: ({ children }) => <p className="mb-4 last:mb-0">{children}</p>,
-                          strong: ({ children }) => <strong className="text-primary font-extrabold">{children}</strong>,
-                          ul: ({ children }) => <ul className="list-disc pl-4 mb-4 space-y-1">{children}</ul>,
-                          li: ({ children }) => <li>{children}</li>,
-                        }}
-                      >
-                        {selectedProject.longDescription}
-                      </ReactMarkdown>
-                    </div>
-                  </div>
+                      {/* Block 1: Intro */}
+                      <div className="flex flex-col space-y-3 p-6 rounded-[2rem] bg-card border border-border shadow-sm overflow-hidden flex-1 min-h-0">
+                        <h1 className="text-2xl font-extrabold tracking-tight xl:text-3xl shrink-0">{selectedProject.title}</h1>
+                        <p className="font-mono text-xs text-muted-foreground shrink-0">{selectedProject.date}</p>
+                        <div className="text-muted-foreground mt-2 leading-relaxed overflow-y-auto text-base shrink pr-2">
+                          <ReactMarkdown
+                            components={{
+                              p: ({ children }) => <p className="mb-4 last:mb-0">{children}</p>,
+                              strong: ({ children }) => <strong className="text-primary font-extrabold">{children}</strong>,
+                              ul: ({ children }) => <ul className="list-disc pl-4 mb-4 space-y-1">{children}</ul>,
+                              li: ({ children }) => <li>{children}</li>,
+                            }}
+                          >
+                            {selectedProject.longDescription}
+                          </ReactMarkdown>
+                        </div>
+                      </div>
 
-                  {/* Block 2: Visual */}
-                  <div className="relative w-full rounded-[2rem] bg-muted border border-border overflow-hidden flex items-center justify-center p-6 group h-full min-h-[200px]">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-accent to-background opacity-50" />
-                    <Layers className="h-16 w-16 text-muted-foreground opacity-20 group-hover:scale-110 transition-transform duration-500 ease-out" />
-                    <div className="absolute bottom-4 left-0 right-0 text-center">
-                      <span className="text-xs font-semibold px-3 py-1.5 bg-background/50 backdrop-blur-md rounded-full text-foreground border border-border/50">Media Placeholder</span>
-                    </div>
-                  </div>
+                      {/* Block 2: Visual */}
+                      <div className={`relative w-full rounded-[2rem] bg-muted border border-border overflow-hidden flex items-center justify-center group h-full min-h-[300px] ${!hasLinks ? "md:row-span-2" : ""}`}>
+                        {selectedProject.video ? (
+                          <video
+                            src={selectedProject.video}
+                            className="absolute inset-0 w-full h-full object-cover"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                          />
+                        ) : selectedProject.image ? (
+                          <img
+                            src={selectedProject.image}
+                            className="absolute inset-0 w-full h-full object-cover"
+                            alt={selectedProject.title}
+                          />
+                        ) : (
+                          <>
+                            <div className="absolute inset-0 bg-gradient-to-tr from-accent to-background opacity-50" />
+                            <Layers className="h-16 w-16 text-muted-foreground opacity-20 group-hover:scale-110 transition-transform duration-500 ease-out" />
+                            <div className="absolute bottom-4 left-0 right-0 text-center">
+                              <span className="text-xs font-semibold px-3 py-1.5 bg-background/50 backdrop-blur-md rounded-full text-foreground border border-border/50">Media Placeholder</span>
+                            </div>
+                          </>
+                        )}
+                      </div>
 
-                  {/* Block 3: Tech Stack */}
-                  <div className="p-6 rounded-[2rem] bg-card border border-border shadow-sm flex flex-col space-y-4 overflow-hidden h-full">
-                    <div className="flex items-center space-x-2 shrink-0">
-                      <Code className="h-5 w-5 text-primary" />
-                      <h3 className="text-lg font-bold tracking-tight">Tech Stack</h3>
-                    </div>
-                    <div className="flex flex-wrap gap-2 overflow-y-auto content-start pr-2">
-                      {selectedProject.tags.map((tech) => {
-                        const isHighlighted = activeTags.includes(tech);
-                        return (
-                          <div key={tech} className={`px-3 py-1.5 rounded-xl text-xs font-bold border flex items-center shadow-sm transition-colors ${isHighlighted
-                            ? "bg-primary text-primary-foreground border-primary"
-                            : "bg-secondary text-secondary-foreground border-border/50"
-                            }`}>
-                            <span>{tech}</span>
+                      {/* Block 3: Tech Stack */}
+                      <div className="p-6 rounded-[2rem] bg-card border border-border shadow-sm flex flex-col space-y-4 overflow-hidden h-full">
+                        <div className="flex items-center space-x-2 shrink-0">
+                          <Code className="h-5 w-5 text-primary" />
+                          <h3 className="text-lg font-bold tracking-tight">Tech Stack</h3>
+                        </div>
+                        <div className="flex flex-wrap gap-2 overflow-y-auto content-start pr-2">
+                          {selectedProject.tags.map((tech) => {
+                            const isHighlighted = activeTags.includes(tech);
+                            return (
+                              <div key={tech} className={`px-3 py-1.5 rounded-xl text-xs font-bold border flex items-center shadow-sm transition-colors ${isHighlighted
+                                ? "bg-primary text-primary-foreground border-primary"
+                                : "bg-secondary text-secondary-foreground border-border/50"
+                                }`}>
+                                <span>{tech}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Block 4: Links - Conditionally Rendered */}
+                      {hasLinks && (
+                        <div className="p-6 rounded-[2rem] bg-card border border-border shadow-sm flex flex-col space-y-4">
+                          <div className="flex items-center space-x-2">
+                            <ExternalLink className="h-5 w-5 text-primary" />
+                            <h3 className="text-lg font-bold tracking-tight">Launch Links</h3>
                           </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  {/* Block 4: Links */}
-                  <div className="p-6 rounded-[2rem] bg-card border border-border shadow-sm flex flex-col space-y-4 h-full">
-                    <h3 className="text-lg font-bold tracking-tight shrink-0">Access & Links</h3>
-
-                    <div className="flex flex-col space-y-3 mt-auto h-full justify-end">
-                      {selectedProject.repo ? (
-                        <a href={selectedProject.repo} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-xl bg-background border border-input shadow-sm px-4 py-2.5 text-sm font-medium hover:bg-accent hover:text-accent-foreground transition-colors group">
-                          <GithubIcon className="mr-2 h-4 w-4 group-hover:text-primary transition-colors" /> Source Code
-                        </a>
-                      ) : null}
-                      {selectedProject.link !== '#' ? (
-                        <a href={selectedProject.link} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center rounded-xl bg-primary text-primary-foreground shadow px-4 py-2.5 text-sm font-medium hover:bg-primary/90 transition-colors group">
-                          <Globe className="mr-2 h-4 w-4 group-hover:animate-pulse" /> Live Preview
-                        </a>
-                      ) : (
-                        <div className="inline-flex items-center justify-center rounded-xl bg-muted text-muted-foreground border border-border/50 px-4 py-2.5 text-sm font-medium">
-                          Internal / Offline Project
+                          <div className="flex flex-wrap gap-3">
+                            {selectedProject.link !== "#" && (
+                              <a href={selectedProject.link} target="_blank" rel="noreferrer" className="flex items-center px-4 py-2 bg-primary text-primary-foreground text-sm font-bold rounded-xl shadow-lg shadow-primary/20 hover:-translate-y-0.5 transition-all">
+                                Live Demo <ExternalLink className="ml-2 h-4 w-4" />
+                              </a>
+                            )}
+                            {selectedProject.repo && (
+                              <a href={selectedProject.repo} target="_blank" rel="noreferrer" className="flex items-center px-4 py-2 bg-secondary text-secondary-foreground text-sm font-bold rounded-xl border border-border hover:bg-accent transition-all">
+                                GitHub Code <GithubIcon className="ml-2 h-4 w-4" />
+                              </a>
+                            )}
+                            {selectedProject.links?.map((customLink, idx) => {
+                              const isPdf = customLink.url.toLowerCase().endsWith('.pdf');
+                              return (
+                                <a key={idx} href={customLink.url} target="_blank" rel="noreferrer" className="flex items-center px-4 py-2 bg-secondary text-secondary-foreground text-sm font-bold rounded-xl border border-border hover:bg-accent transition-all">
+                                  {customLink.text} {isPdf ? <FileText className="ml-2 h-4 w-4" /> : <ExternalLink className="ml-2 h-4 w-4" />}
+                                </a>
+                              );
+                            })}
+                          </div>
                         </div>
                       )}
                     </div>
-                  </div>
-                </div>
+                  );
+                })()}
               </div>
             </motion.div>
           </motion.div>
