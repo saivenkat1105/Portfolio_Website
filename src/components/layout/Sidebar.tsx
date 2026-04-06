@@ -1,6 +1,7 @@
 "use client";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { cn } from "@/lib/utils";
+import { usePathname, useRouter } from "next/navigation";
 
 const sections = [
   { name: "About Me", id: "about" },
@@ -12,10 +13,22 @@ const sections = [
 ];
 
 export function Sidebar() {
-  const activeSection = useActiveSection(sections.map(s => s.id));
+  const pathname = usePathname();
+  const router = useRouter();
+  const activeSectionFromScroll = useActiveSection(sections.map(s => s.id));
+  
+  // Override highlight: if we are on any /blog related route, highlight Blog
+  const activeSection = pathname.startsWith("/blog") ? "blog" : activeSectionFromScroll;
 
   const onClick = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
+    
+    // If we're on a sub-page (like a blog article) and click a different section, navigate home first
+    if (pathname !== "/") {
+      router.push(`/#${id}`);
+      return;
+    }
+
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });

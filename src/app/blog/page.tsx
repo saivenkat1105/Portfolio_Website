@@ -55,9 +55,9 @@ export default function BlogListingPage() {
                     {post.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20"
+                        className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20"
                       >
-                        <Tag className="h-2.5 w-2.5" /> {tag}
+                        <Tag className="h-3 w-3" /> {tag}
                       </span>
                     ))}
                   </div>

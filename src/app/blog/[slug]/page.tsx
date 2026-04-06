@@ -57,9 +57,9 @@ export default async function BlogArticlePage({ params }: PageProps) {
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="inline-flex items-center gap-1 text-xs font-bold px-2.5 py-1 rounded-full bg-primary text-primary-foreground"
+                  className="inline-flex items-center gap-1 text-sm font-bold px-3 py-1.5 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/20"
                 >
-                  <Tag className="h-3 w-3" /> {tag}
+                  <Tag className="h-3.5 w-3.5" /> {tag}
                 </span>
               ))}
             </div>
@@ -82,7 +82,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
               h1: ({ children }) => <h1 className="text-3xl font-extrabold tracking-tight mt-10 mb-4 text-foreground">{children}</h1>,
               h2: ({ children }) => <h2 className="text-2xl font-extrabold tracking-tight mt-10 mb-4 pb-3 border-b border-border text-foreground">{children}</h2>,
               h3: ({ children }) => <h3 className="text-xl font-bold mt-8 mb-3 text-foreground">{children}</h3>,
-              p: ({ children }) => <p className="text-base text-muted-foreground leading-relaxed mb-5">{children}</p>,
+              p: ({ children }) => <div className="text-base text-muted-foreground leading-relaxed mb-6">{children}</div>,
               strong: ({ children }) => <strong className="text-foreground font-extrabold">{children}</strong>,
               em: ({ children }) => <em className="italic text-muted-foreground">{children}</em>,
               ul: ({ children }) => <ul className="list-disc pl-6 mb-5 space-y-2 text-muted-foreground">{children}</ul>,
@@ -93,11 +93,37 @@ export default async function BlogArticlePage({ params }: PageProps) {
                   {children}
                 </blockquote>
               ),
-              a: ({ href, children }) => (
-                <a href={href} target="_blank" rel="noreferrer" className="text-primary underline underline-offset-2 hover:text-primary/70 transition-colors">
-                  {children}
-                </a>
-              ),
+              a: ({ href, children }) => {
+                const getYoutubeId = (url: string) => {
+                  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                  const match = url.match(regExp);
+                  return (match && match[2].length === 11) ? match[2] : null;
+                };
+
+                const videoId = href ? getYoutubeId(href) : null;
+
+                if (videoId) {
+                  return (
+                    <div className="relative w-full aspect-video rounded-3xl overflow-hidden shadow-2xl my-12 bg-black/10 border border-border/50 group">
+                      <iframe
+                        className="absolute inset-0 w-full h-full"
+                        src={`https://www.youtube.com/embed/${videoId}`}
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      />
+                      <div className="absolute inset-0 pointer-events-none ring-1 ring-inset ring-white/10 rounded-3xl" />
+                    </div>
+                  );
+                }
+
+                return (
+                  <a href={href} target="_blank" rel="noreferrer" className="text-primary underline underline-offset-4 font-semibold hover:text-primary/70 transition-colors">
+                    {children}
+                  </a>
+                );
+              },
               code: ({ children }) => (
                 <code className="bg-muted text-foreground px-1.5 py-0.5 rounded text-sm font-mono">{children}</code>
               ),
@@ -105,9 +131,9 @@ export default async function BlogArticlePage({ params }: PageProps) {
                 <pre className="bg-muted rounded-xl p-4 overflow-x-auto my-6 text-sm font-mono border border-border">{children}</pre>
               ),
               img: ({ src, alt }) => (
-                <figure className="my-8">
-                  <img src={asset(typeof src === "string" ? src : "")} alt={alt} className="rounded-2xl border border-border shadow-md w-full object-contain max-h-[500px]" />
-                  {alt && <figcaption className="text-center text-xs text-muted-foreground/70 mt-2">{alt}</figcaption>}
+                <figure className="my-10">
+                  <img src={asset(typeof src === "string" ? src : "")} alt={alt} className="rounded-xl w-full object-contain max-h-[600px]" />
+                  {alt && <figcaption className="text-center text-sm text-muted-foreground/60 mt-3 font-medium italic">{alt}</figcaption>}
                 </figure>
               ),
               hr: () => <hr className="border-border my-10" />,
