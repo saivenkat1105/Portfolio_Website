@@ -11,6 +11,8 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { allProjects, getProjectsByType, Project } from "@/data/projects";
+import { allBlogPosts } from "@/data/blog";
+import { CoverflowCarousel } from "@/components/blog/CoverflowCarousel";
 import ReactMarkdown from "react-markdown";
 
 // Defined strict taxonomy for tagging
@@ -183,11 +185,11 @@ export default function Home() {
                 regular portfolio page that you haven't seen already but unfortunately it is. I currently
                 work at <span className="text-primary font-semibold">Jaguar Land Rover</span> on building <span className="text-primary font-semibold">Virtual Sensors</span> and <span className="text-primary font-semibold">Advanced Control Systems</span> to improve vehicle range. My speciality lies in handling the <span className="text-primary font-semibold">entire engineering lifecycle</span> -
                 translating the initial fuzzy ideas
-                to concrete requirements, building the initial MVPs and the finally
+                to concrete requirements, building the initial MVPs and finally
                 developing a production ready system.
               </p>
               <p>
-                Aside from my standard intro, what I really love is <span className="text-primary font-semibold">solving complex problems </span>
+                Looing beyond my standard intro, what I really love is <span className="text-primary font-semibold">solving complex problems </span>
                 and I have always loved machines doing things on their own. So I figured <span className="text-primary font-semibold">robotics</span> is a pretty good field to work on. I worked on some amazing projects like <span className="text-primary font-semibold">building rovers, autonomous wheelchairs,
                   pipeline robots</span> in university.
                 Then life took a different turn and I ended up
@@ -491,6 +493,33 @@ export default function Home() {
                 </li>
               ))}
             </ul>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* 6. Blog */}
+      <section id="blog" className="pt-24 scroll-mt-14">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="flex items-end justify-between mb-2">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Blog</h1>
+              <p className="mt-3 text-muted-foreground">Personal writing on robotics, ML, and everything in between.</p>
+            </div>
+            <a
+              href="/blog"
+              className="text-sm font-semibold text-primary hover:underline shrink-0"
+            >
+              All Articles →
+            </a>
+          </div>
+
+          <div className="mt-10">
+            <CoverflowCarousel posts={allBlogPosts} />
           </div>
         </motion.div>
       </section>

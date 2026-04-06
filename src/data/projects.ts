@@ -88,6 +88,16 @@ export const allProjects: Project[] = [
     links: [{ text: "Report", url: "projects/ME4001_Project_Report.pdf" }],
     images: ["/projects/wheelchair.jpeg",]
   },
+  {
+    slug: "organ-drone-delivery",
+    title: "Drone Delivery of Organs",
+    date: "July 2021 - July 2022",
+    type: "engineering",
+    shortDescription: "Built a special **thermally insulated, crash proof, light weight container** to transport organs through drones",
+    longDescription: "Organ Delivery is a very critical and time sensitive process. Organ transportation requires specific thermal conditions and extreme safety during transportation. \n\n - Drone delivery of organs requires a **light-weight, thermally insualted and crash proof structure.** \n - We have bult a special **carbon fibre container** with custom insulation based on **phase change materials** for the required structural and thermal properties.  ",
+    tags: ["Mechanical Design", "FEA"],
+    video: "projects/Drone_Video.mp4",
+  },
 ];
 
 export const getProjectsByType = (type: ProjectType) => allProjects.filter((p) => p.type === type);

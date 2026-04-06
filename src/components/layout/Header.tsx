@@ -13,6 +13,7 @@ export function Header() {
           </Link>
           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
             <Link href="/" className="transition-colors hover:text-foreground text-foreground">Home</Link>
+            <Link href="/blog" className="transition-colors hover:text-foreground text-muted-foreground">Blog</Link>
             <a href="https://linkedin.com/in/sai-venkat-gunda" target="_blank" rel="noreferrer" className="flex items-center text-muted-foreground hover:text-foreground">
               LinkedIn <ExternalLink className="ml-1 h-3 w-3" />
             </a>
