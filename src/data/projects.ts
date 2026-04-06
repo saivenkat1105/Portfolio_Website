@@ -85,7 +85,8 @@ export const allProjects: Project[] = [
     shortDescription: "Developed an **assistive wheelchair** for patients with cerebral palsy using **body movement-based control**.",
     longDescription: "In some cases of cerebral palsy, patients do not have precise control over their hand movements in order to use the joysticks present in electric wheelchairs. We have built a **special assisted wheelchair** that translates **gross body movements** to joystick actions enabling mobility. \n\n - Built a **custom sensor array** integrated into off the shelf wheelchairs to capture gross body movements. \n - Used **extensive signal processing techniques** integrating with a **PID based control system** to enable smooth movement and enhanced safety. ",
     tags: ["Robotics", "Control Systems", "Mechanical Design", "MATLAB", "FEA"],
-    link: "#"
+    links: [{ text: "Report", url: "projects/ME4001_Project_Report.pdf" }],
+    images: ["/projects/wheelchair.jpeg",]
   },
 ];
 

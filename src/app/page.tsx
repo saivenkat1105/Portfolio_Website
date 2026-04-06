@@ -24,41 +24,10 @@ const skillsMap = {
   "Skillset": ["Control Systems", "Machine Learning", "Reinforcement Learning", "Mathematical Modelling", "Robotics Simulation", "State Estimation", "SLAM and Path Planning", "FEA", "Mechanical Design", "3D Printing"]
 };
 
-const experiences = [
-  {
-    company: "Jaguar Land Rover",
-    location: "Bengaluru, India",
-    role: "Advanced Controls Engineer",
-    date: "May 2024 - Present",
-    bullets: [
-      "Virtual Sensors: Engineered and deployed industrialized ML models to edge hardware to virtualize thermal sensors achieving 96% real time prediction accuracy.",
-      "ML Data Pipelines: Built a complete ML pipeline reducing delivery cycle from 1 week to 4 hours.",
-      "Hypervisor: Assisted in developing a supervisory controller providing a range benefit of 15-35 miles.",
-      "Engineering Lifecycle: Managed complete delivery from requirement definition to validation.",
-      "State Estimation (EKF): Developing an Extended Kalman Filter for grey-box state estimation.",
-      "Model Predictive Control (MPC): Developing deployable MPC architecture to optimize comfort and efficiency."
-    ]
-  },
-  {
-    company: "Jaguar Land Rover",
-    location: "Bengaluru, India",
-    role: "Structural CAE Analyst",
-    date: "July 2022 - May 2024",
-    bullets: [
-      "Multi-disciplinary Optimization: Developed topology optimization satisfying crash requirements, reducing weight by 10%.",
-      "Reduced Order Modelling: Developed 1D frontal crash modelling techniques for quick design verification."
-    ]
-  }
-];
-
-const educations = [
-  {
-    institution: "Indian Institute of Technology Madras",
-    location: "Chennai, India",
-    degree: "Dual Degree (B.Tech + M.Tech) Honours in Mechanical Engineering",
-    score: "GPA: 9.14",
-    date: "Aug 2017 – May 2022",
-  }
+const achievements = [
+  "Placed **1st** at the Indian Rover Challenge 2019 and **12th internationally** at the University Rover Challenge 2019 with Team Anveshak, IIT Madras.",
+  "Achieved a **GPA of 9.14** in Dual Degree (B.Tech + M.Tech) in Mechanical Engineering at IIT Madras.",
+  "Reduced ML model delivery cycle at **Jaguar Land Rover** from 1 week to 4 hours with an end-to-end ML pipeline.",
 ];
 
 // Slug mapping for Simple Icons
@@ -493,69 +462,35 @@ export default function Home() {
 
 
 
-      {/* 5. Experience */}
-      <section id="experience" className="pt-24 scroll-mt-14">
+      {/* 5. Achievements */}
+      <section id="achievements" className="pt-24 scroll-mt-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Experience</h1>
-          <p className="mt-4 text-muted-foreground">My professional journey and career milestones.</p>
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Achievements</h1>
+          <p className="text-xl md:text-2xl font-bold text-muted-foreground/80">What I can brag about ...</p>
 
-          <div className="mt-8 space-y-12 bg-card p-8 rounded-[2rem] border border-border shadow-sm">
-            {experiences.map((exp, index) => (
-              <div key={index} className="relative pl-6 sm:pl-8">
-                {index !== experiences.length - 1 && (
-                  <div className="absolute left-0 top-3 bottom-[-3rem] w-px bg-border" />
-                )}
-                <div className="absolute left-[-4px] top-2 h-2.5 w-2.5 rounded-full bg-primary ring-4 ring-background shadow-sm" />
-
-                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between">
-                  <h3 className="text-xl font-bold">{exp.role}</h3>
-                  <span className="mt-1 text-sm font-mono text-muted-foreground sm:mt-0 bg-background px-3 py-1 rounded-md border border-border/50">{exp.date}</span>
-                </div>
-                <p className="font-semibold text-primary mt-2">{exp.company} &mdash; {exp.location}</p>
-
-                <ul className="mt-6 list-outside space-y-3 text-muted-foreground">
-                  {exp.bullets.map((bullet, idx) => (
-                    <li key={idx} className="text-sm leading-relaxed flex items-start">
-                      <span className="mr-3 mt-1.5 h-1.5 w-1.5 rounded-full bg-primary/30 shrink-0" />
-                      {bullet}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-      </section>
-
-      {/* 6. Education */}
-      <section id="education" className="pt-24 scroll-mt-14">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Education</h1>
-          <p className="mt-4 text-muted-foreground">My academic background.</p>
-
-          <div className="mt-8 space-y-12 bg-card p-8 rounded-[2rem] border border-border shadow-sm">
-            {educations.map((edu, index) => (
-              <div key={index} className="relative pl-6 sm:pl-8">
-                <div className="absolute left-[-4px] top-2 h-2.5 w-2.5 rounded-full bg-primary ring-4 ring-background shadow-sm" />
-
-                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between">
-                  <h3 className="text-xl font-bold">{edu.institution}</h3>
-                  <span className="mt-1 text-sm font-mono text-muted-foreground sm:mt-0 bg-background px-3 py-1 rounded-md border border-border/50">{edu.date}</span>
-                </div>
-                <p className="font-semibold text-primary mt-3">{edu.degree}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{edu.score} &mdash; {edu.location}</p>
-              </div>
-            ))}
+          <div className="mt-8 bg-card p-8 rounded-[2rem] border border-border shadow-sm">
+            <ul className="space-y-4">
+              {achievements.map((achievement, idx) => (
+                <li key={idx} className="flex items-start gap-3 text-muted-foreground">
+                  <span className="mt-2 h-2 w-2 rounded-full bg-primary shrink-0" />
+                  <span className="text-sm leading-relaxed">
+                    <ReactMarkdown
+                      components={{
+                        p: ({ children }) => <span>{children}</span>,
+                        strong: ({ children }) => <strong className="text-primary font-extrabold">{children}</strong>,
+                      }}
+                    >
+                      {achievement}
+                    </ReactMarkdown>
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
         </motion.div>
       </section>
