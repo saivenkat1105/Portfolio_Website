@@ -14,8 +14,8 @@ import { allProjects, getProjectsByType, Project } from "@/data/projects";
 import ReactMarkdown from "react-markdown";
 
 // Defined strict taxonomy for tagging
-const DOMAIN_TAGS = ["Robotics", "Machine Learning", "Control Systems", "Mechanical Design", "Mathematical Modelling", "Vibe Coded", "App Development"];
-const TECH_STACK_TAGS = ["Python", "C++", "MATLAB", "Simulink", "ROS2", "MuJoCo", "Pytorch", "RL", "Fusion 360"];
+const DOMAIN_TAGS = ["Robotics", "Machine Learning", "Control Systems", "Mathematical Modelling", "Mechanical Design", "FEA", "Vibe Coded", "App Development"];
+const TECH_STACK_TAGS = ["Python", "C++", "MATLAB", "Simulink", "ROS2", "Gazebo", "MuJoCo", "Pytorch", "RL", "Fusion 360"];
 
 const skillsMap = {
   "Languages": ["Python", "C++"],
@@ -218,7 +218,7 @@ export default function Home() {
                 developing a production ready system.
               </p>
               <p>
-                Aside from my standard intro, what I really love is <span className="text-primary font-semibold">solving complex problems</span>
+                Aside from my standard intro, what I really love is <span className="text-primary font-semibold">solving complex problems </span>
                 and I have always loved machines doing things on their own. So I figured <span className="text-primary font-semibold">robotics</span> is a pretty good field to work on. I worked on some amazing projects like <span className="text-primary font-semibold">building rovers, autonomous wheelchairs,
                   pipeline robots</span> in university.
                 Then life took a different turn and I ended up
@@ -371,7 +371,7 @@ export default function Home() {
       <section id="projects" className="pt-24 scroll-mt-14">
         <div className="space-y-4 mb-4">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Projects</h1>
-          <p className="text-muted-foreground max-w-2xl">A showcase of the engineering projects, academic research, and creative coding I have contributed to.</p>
+          <p className="text-xl md:text-2xl font-bold text-muted-foreground/80">What all have I been up to ...</p>
         </div>
 
         {/* Local Sidebar Layout */}
@@ -628,7 +628,7 @@ export default function Home() {
               {/* Modal Content layout */}
               <div className="p-4 md:p-6 flex-1 min-h-0 overflow-y-auto md:overflow-hidden">
                 {(() => {
-                  const hasLinks = selectedProject.link !== "#" || !!selectedProject.repo || (selectedProject.links && selectedProject.links.length > 0);
+                  const hasLinks = !!selectedProject.repo || (selectedProject.links && selectedProject.links.length > 0);
                   return (
                     <div className="grid grid-cols-1 md:grid-cols-2 md:grid-rows-[minmax(0,1fr)_auto] gap-4 h-full max-w-5xl mx-auto">
 
@@ -651,30 +651,46 @@ export default function Home() {
                       </div>
 
                       {/* Block 2: Visual */}
-                      <div className={`relative w-full rounded-[2rem] bg-muted border border-border overflow-hidden flex items-center justify-center group h-full min-h-[300px] ${!hasLinks ? "md:row-span-2" : ""}`}>
-                        {selectedProject.video ? (
-                          <video
-                            src={selectedProject.video}
-                            className="absolute inset-0 w-full h-full object-cover"
-                            autoPlay
-                            muted
-                            loop
-                            playsInline
-                          />
-                        ) : selectedProject.image ? (
-                          <img
-                            src={selectedProject.image}
-                            className="absolute inset-0 w-full h-full object-cover"
-                            alt={selectedProject.title}
-                          />
+                      <div className={`relative w-full rounded-[2rem] bg-muted border border-border overflow-hidden group h-full min-h-[300px] ${!hasLinks ? "md:row-span-2" : ""}`}>
+                        {selectedProject.images && selectedProject.images.length > 1 ? (
+                          <div className="flex flex-col space-y-4 p-4 h-full overflow-y-auto custom-scrollbar">
+                            {selectedProject.images.slice(0, 3).map((img, idx) => (
+                              <div key={idx} className="relative w-full aspect-video flex-shrink-0 bg-background/30 rounded-xl overflow-hidden border border-border/50">
+                                <img
+                                  src={img}
+                                  className="absolute inset-0 w-full h-full object-contain"
+                                  alt={`${selectedProject.title} screenshot ${idx + 1}`}
+                                />
+                              </div>
+                            ))}
+                          </div>
+                        ) : selectedProject.video ? (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/5">
+                            <video
+                              src={selectedProject.video}
+                              className="w-full h-full object-contain"
+                              autoPlay
+                              muted
+                              loop
+                              playsInline
+                            />
+                          </div>
+                        ) : selectedProject.image || (selectedProject.images && selectedProject.images.length === 1) ? (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/5">
+                            <img
+                              src={selectedProject.image || (selectedProject.images && selectedProject.images[0])}
+                              className="w-full h-full object-contain"
+                              alt={selectedProject.title}
+                            />
+                          </div>
                         ) : (
-                          <>
+                          <div className="absolute inset-0 flex flex-col items-center justify-center">
                             <div className="absolute inset-0 bg-gradient-to-tr from-accent to-background opacity-50" />
                             <Layers className="h-16 w-16 text-muted-foreground opacity-20 group-hover:scale-110 transition-transform duration-500 ease-out" />
                             <div className="absolute bottom-4 left-0 right-0 text-center">
                               <span className="text-xs font-semibold px-3 py-1.5 bg-background/50 backdrop-blur-md rounded-full text-foreground border border-border/50">Media Placeholder</span>
                             </div>
-                          </>
+                          </div>
                         )}
                       </div>
 
@@ -707,11 +723,6 @@ export default function Home() {
                             <h3 className="text-lg font-bold tracking-tight">Launch Links</h3>
                           </div>
                           <div className="flex flex-wrap gap-3">
-                            {selectedProject.link !== "#" && (
-                              <a href={selectedProject.link} target="_blank" rel="noreferrer" className="flex items-center px-4 py-2 bg-primary text-primary-foreground text-sm font-bold rounded-xl shadow-lg shadow-primary/20 hover:-translate-y-0.5 transition-all">
-                                Live Demo <ExternalLink className="ml-2 h-4 w-4" />
-                              </a>
-                            )}
                             {selectedProject.repo && (
                               <a href={selectedProject.repo} target="_blank" rel="noreferrer" className="flex items-center px-4 py-2 bg-secondary text-secondary-foreground text-sm font-bold rounded-xl border border-border hover:bg-accent transition-all">
                                 GitHub Code <GithubIcon className="ml-2 h-4 w-4" />
