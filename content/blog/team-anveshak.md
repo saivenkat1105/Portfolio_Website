@@ -1,4 +1,4 @@
-If I had to describe my 3 years at IIT Madras with a single word, it would be **Anveshak**. Joining the team was one of the best decisions I ever made, both for me and my resume. My journey with the team has been really incredible with loads of memories, inside jokes, foosball, robotics and whatnot.
+If I had to describe my life at IIT Madras with a single word, it would be **Anveshak**. Joining the team was one of the best decisions I ever made, both for me and my resume. My journey with the team has been really incredible with loads of memories, inside jokes, foosball, robotics and whatnot.
 
 ## What is Team Anveshak?
 

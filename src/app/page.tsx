@@ -14,6 +14,7 @@ import { allProjects, getProjectsByType, Project } from "@/data/projects";
 import { allBlogPosts } from "@/data/blog";
 import { CoverflowCarousel } from "@/components/blog/CoverflowCarousel";
 import ReactMarkdown from "react-markdown";
+import { asset } from "@/lib/assets";
 
 // Defined strict taxonomy for tagging
 const DOMAIN_TAGS = ["Robotics", "Machine Learning", "Control Systems", "Mathematical Modelling", "Mechanical Design", "FEA", "Vibe Coded", "App Development"];
@@ -87,7 +88,7 @@ function getIconForSkill(skill: string) {
     const ext = LOCAL_ICONS[skill];
     return (
       <img
-        src={`/icons/tech/${skill}.${ext}`}
+        src={asset(`/icons/tech/${skill}.${ext}`)}
         alt={skill}
         className="w-4 h-4 object-contain"
         onError={(e) => {
@@ -621,7 +622,7 @@ export default function Home() {
                             {selectedProject.images.slice(0, 3).map((img, idx) => (
                               <div key={idx} className="relative w-full aspect-video flex-shrink-0 bg-background/30 rounded-xl overflow-hidden border border-border/50">
                                 <img
-                                  src={img}
+                                  src={asset(img)}
                                   className="absolute inset-0 w-full h-full object-contain"
                                   alt={`${selectedProject.title} screenshot ${idx + 1}`}
                                 />
@@ -631,7 +632,7 @@ export default function Home() {
                         ) : selectedProject.video ? (
                           <div className="absolute inset-0 flex items-center justify-center bg-black/5">
                             <video
-                              src={selectedProject.video}
+                              src={asset(selectedProject.video ?? "")}
                               className="w-full h-full object-contain"
                               autoPlay
                               muted
@@ -642,7 +643,7 @@ export default function Home() {
                         ) : selectedProject.image || (selectedProject.images && selectedProject.images.length === 1) ? (
                           <div className="absolute inset-0 flex items-center justify-center bg-black/5">
                             <img
-                              src={selectedProject.image || (selectedProject.images && selectedProject.images[0])}
+                              src={asset(selectedProject.image || (selectedProject.images && selectedProject.images[0]) || "")}
                               className="w-full h-full object-contain"
                               alt={selectedProject.title}
                             />

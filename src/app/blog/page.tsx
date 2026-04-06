@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { allBlogPosts } from "@/data/blog";
 import { Calendar, Tag, ArrowLeft } from "lucide-react";
+import { asset } from "@/lib/assets";
 
 export default function BlogListingPage() {
   const posts = [...allBlogPosts].sort(
@@ -40,7 +41,7 @@ export default function BlogListingPage() {
               {/* Cover thumbnail */}
               <div className="relative w-32 h-24 shrink-0 rounded-xl overflow-hidden border border-border bg-muted">
                 <img
-                  src={post.coverImage}
+                  src={asset(post.coverImage)}
                   alt={post.title}
                   className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />

@@ -74,7 +74,7 @@ export const allProjects: Project[] = [
     longDescription: "Team and Traversal Lead for Team Anveshak, IIT Madras which builds a **semi-autonomous Mars rover** for extra-terrestrial applications. \n\n - Led the Traversal team in developing a **rocker-bogie suspension system** capable of climbing **45 cm heights and 30 degree inclines**. \n - Developed a **5 DOF manipulator** with a compliant gripper and integrated a **closed loop control system** using Inverse Kinematics for Robust Manipulation. \n - Won the Indian Rover Challenge 2019 and placed 12th internationally in University Rover Challenge 2019.",
     tags: ["Robotics", "Mechanical Design", "Control Systems", "ROS2", "C++", "Fusion 360", "MATLAB", "Gazebo", "FEA"],
     links: [{ text: "Blog Post", url: "https://1105saivenkat.wixsite.com/liteonly/post/team-anveshak-the-story-of-me-and-a-mars-rover" }],
-    images: ["/projects/Anveshak.avif", "projects/Caesar.avif"],
+    images: ["/projects/Anveshak.avif", "/projects/Caesar.avif"],
 
   },
   {
@@ -85,7 +85,7 @@ export const allProjects: Project[] = [
     shortDescription: "Developed an **assistive wheelchair** for patients with cerebral palsy using **body movement-based control**.",
     longDescription: "In some cases of cerebral palsy, patients do not have precise control over their hand movements in order to use the joysticks present in electric wheelchairs. We have built a **special assisted wheelchair** that translates **gross body movements** to joystick actions enabling mobility. \n\n - Built a **custom sensor array** integrated into off the shelf wheelchairs to capture gross body movements. \n - Used **extensive signal processing techniques** integrating with a **PID based control system** to enable smooth movement and enhanced safety. ",
     tags: ["Robotics", "Control Systems", "Mechanical Design", "MATLAB", "FEA"],
-    links: [{ text: "Report", url: "projects/ME4001_Project_Report.pdf" }],
+    links: [{ text: "Report", url: "/projects/ME4001_Project_Report.pdf" }],
     images: ["/projects/wheelchair.jpeg",]
   },
   {
@@ -96,7 +96,7 @@ export const allProjects: Project[] = [
     shortDescription: "Built a special **thermally insulated, crash proof, light weight container** to transport organs through drones",
     longDescription: "Organ Delivery is a very critical and time sensitive process. Organ transportation requires specific thermal conditions and extreme safety during transportation. \n\n - Drone delivery of organs requires a **light-weight, thermally insualted and crash proof structure.** \n - We have bult a special **carbon fibre container** with custom insulation based on **phase change materials** for the required structural and thermal properties.  ",
     tags: ["Mechanical Design", "FEA"],
-    video: "projects/Drone_Video.mp4",
+    video: "/projects/Drone_Video.mp4",
   },
 ];
 

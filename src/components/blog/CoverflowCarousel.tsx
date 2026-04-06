@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import { BlogPost } from "@/data/blog";
 import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
+import { asset } from "@/lib/assets";
 
 interface CoverflowCarouselProps {
   posts: BlogPost[];
@@ -85,7 +86,7 @@ export function CoverflowCarousel({ posts, currentSlug }: CoverflowCarouselProps
                 >
                   {/* Background image */}
                   <img
-                    src={post.coverImage}
+                    src={asset(post.coverImage)}
                     alt={post.title}
                     className="absolute inset-0 w-full h-full object-cover"
                   />

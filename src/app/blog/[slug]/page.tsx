@@ -5,6 +5,7 @@ import { getBlogPostContent } from "@/lib/blog";
 import { Calendar, ArrowLeft, Tag } from "lucide-react";
 import { CoverflowCarousel } from "@/components/blog/CoverflowCarousel";
 import ReactMarkdown from "react-markdown";
+import { asset } from "@/lib/assets";
 
 export function generateStaticParams() {
   return allBlogPosts.map((post) => ({ slug: post.slug }));
@@ -43,7 +44,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
       {/* Hero cover */}
       <div className="relative w-full h-[340px] md:h-[440px] overflow-hidden">
         <img
-          src={post.coverImage}
+          src={asset(post.coverImage)}
           alt={post.title}
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -105,7 +106,7 @@ export default async function BlogArticlePage({ params }: PageProps) {
               ),
               img: ({ src, alt }) => (
                 <figure className="my-8">
-                  <img src={src} alt={alt} className="rounded-2xl border border-border shadow-md w-full object-contain max-h-[500px]" />
+                  <img src={asset(typeof src === "string" ? src : "")} alt={alt} className="rounded-2xl border border-border shadow-md w-full object-contain max-h-[500px]" />
                   {alt && <figcaption className="text-center text-xs text-muted-foreground/70 mt-2">{alt}</figcaption>}
                 </figure>
               ),
