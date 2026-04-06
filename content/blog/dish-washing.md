@@ -36,7 +36,7 @@ Hence, to use the limited space in these dish racks effectively, clean all the p
 
 ## 4. The Dirty Work
 
-Now, let me introduce you to the dark side of dish washing. Unclogging the drain. Most of the food silently goes down the drain just like Manmohan Singh. But there are items like rice, chillies which everyone throw into the sink, vegetables your siblings refuse to eat and other stuff which repeatedly clog your sink and never stop coming back just like our communist parties. 
+Now, let me introduce you to the dark side of dishwashing. Unclogging the drain. Most of the food silently goes down the drain just like Manmohan Singh. But there are items like rice and chillies that everyone throws into the sink, vegetables your siblings refuse to eat, and other stuff which repeatedly clog your sink and never stop coming back—just like our communist parties. 
 
 How many ever times we tell them during the elections that we don’t need them, they still keep contesting. If you don’t clear them frequently you have to see your sink turning into the drowned city of Atlantis. I am sorry to disappoint you but there is no workaround for this. You have to put your hand in, take everything that clogs your drain out and throw it in the nearest dustbin. But, I can assure you the task becomes less and less daunting as days go by.
 
@@ -66,7 +66,7 @@ Don’t fantasize over expensive gloves or soap bars. They are all shows like ou
 
 So that’s it from me and kudos on reaching the end of my guide. I wanted to present another scientifically proven fact in this article. I performed a survey on 96,000 households from 671 cities and villages across India using Machine Learning, Deep Learning, Data Analytics and all the buzz words to prove that **scrubbing clockwise is not as effective as scrubbing anti-clockwise.** The research paper on this is about to be published in The Lancet. Unfortunately, I cannot give you the details of the participants because of confidentiality issues. But trust me, it is true.
 
-Hope I helped become a better dishwasher. Now that you know the fundamentals, go out there and show your skills. Keep trying and don’t give up.
+Hope I helped you become a better dishwasher. Now that you know the fundamentals, go out there and show your skills. Keep trying and don’t give up.
 
 ![Your clean plate](/blog/success_shine.avif)
 

@@ -31,7 +31,7 @@ const achievements = [
   {
     year: "2026",
     items: [
-      "Reduced ML model delivery cycle at **Jaguar Land Rover** from 1 week to **4 hours** by developing an automated ML pipeline.",
+      "Reduced the ML model delivery cycle at **Jaguar Land Rover** from 1 week to **4 hours** by developing an automated ML pipeline.",
     ]
   },
   {
@@ -211,21 +211,20 @@ export default function Home() {
                 developing a production ready system.
               </p>
               <p>
-                Looing beyond my standard intro, what I really love is <span className="text-primary font-semibold">solving complex problems </span>
+                Looking beyond my standard intro, what I really love is <span className="text-primary font-semibold">solving complex problems </span>
                 and I have always loved machines doing things on their own. So I figured <span className="text-primary font-semibold">robotics</span> is a pretty good field to work on. I worked on some amazing projects like <span className="text-primary font-semibold">building rovers, autonomous wheelchairs,
-                  pipeline robots</span> in university.
+                  and pipeline robots</span> in university.
                 Then life took a different turn and I ended up
                 in the automobile industry which was equally exciting, but a small part of me always stayed with robotics.
               </p>
               <p>
-                I am proficient in <span className="text-primary font-semibold">classical and modern control systems, applied ML and
-                  RL</span>. I also love <span className="text-primary font-semibold">chess, travel and movies. </span>
+                I am proficient in <span className="text-primary font-semibold">classical and modern control systems, applied ML, and
+                  RL</span>. I also love <span className="text-primary font-semibold">chess, travel, and movies. </span>
                 My current passion project is vibe coding everything that I can think of.
                 The rapidly evolving <span className="text-primary font-semibold">physical AI</span> space is something I am excited about and would
                 like to contribute towards. If you want to talk about robotics, engineering,
-                how to improve my chess ELO or
+                how to improve my chess Elo, or
                 anything under the sun, hit me up.
-
               </p>
             </div>
 
