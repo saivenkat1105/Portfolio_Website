@@ -11,6 +11,7 @@ const LinkedinIcon = ({ className }: { className?: string }) => (
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { allProjects, getProjectsByType, Project } from "@/data/projects";
+import ReactMarkdown from "react-markdown";
 
 // Defined strict taxonomy for tagging
 const DOMAIN_TAGS = ["Vibe Coded", "Robotics", "Machine Learning", "App Development", "Control Systems", "Mechanical Design"];
@@ -451,7 +452,16 @@ export default function Home() {
                           <ExternalLink className="h-5 w-5 text-muted-foreground/30 group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0 shrink-0" />
                         </div>
                         <p className={`mt-1 text-xs font-mono mb-6 ${isVibe ? 'text-primary' : 'text-muted-foreground'}`}>{project.date}</p>
-                        <p className="text-muted-foreground text-sm leading-relaxed flex-1">{project.shortDescription}</p>
+                        <div className="text-muted-foreground text-sm leading-relaxed flex-1">
+                          <ReactMarkdown
+                            components={{
+                              p: ({ children }) => <>{children}</>,
+                              strong: ({ children }) => <strong className="text-primary font-extrabold">{children}</strong>,
+                            }}
+                          >
+                            {project.shortDescription}
+                          </ReactMarkdown>
+                        </div>
                         <div className="mt-8 flex flex-wrap gap-2">
                           {project.tags.map(tag => {
                             const isHighlighted = activeTags.includes(tag);
@@ -623,8 +633,17 @@ export default function Home() {
                   <div className="flex flex-col space-y-3 p-6 rounded-[2rem] bg-card border border-border shadow-sm overflow-hidden flex-1 min-h-0">
                     <h1 className="text-2xl font-extrabold tracking-tight xl:text-3xl shrink-0">{selectedProject.title}</h1>
                     <p className="font-mono text-xs text-muted-foreground shrink-0">{selectedProject.date}</p>
-                    <div className="text-muted-foreground mt-2 leading-relaxed whitespace-pre-line overflow-y-auto text-sm shrink pr-2">
-                      {selectedProject.longDescription}
+                    <div className="text-muted-foreground mt-2 leading-relaxed overflow-y-auto text-sm shrink pr-2">
+                      <ReactMarkdown
+                        components={{
+                          p: ({ children }) => <p className="mb-4 last:mb-0">{children}</p>,
+                          strong: ({ children }) => <strong className="text-primary font-extrabold">{children}</strong>,
+                          ul: ({ children }) => <ul className="list-disc pl-4 mb-4 space-y-1">{children}</ul>,
+                          li: ({ children }) => <li>{children}</li>,
+                        }}
+                      >
+                        {selectedProject.longDescription}
+                      </ReactMarkdown>
                     </div>
                   </div>
 

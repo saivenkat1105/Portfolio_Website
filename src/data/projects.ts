@@ -15,17 +15,17 @@ export type Project = {
 export const allProjects: Project[] = [
   {
     slug: "jlr-virtual-sensors",
-    title: "Edge ML Virtual Sensors",
+    title: "Virtual Sensors",
     date: "May 2024 - Present",
     type: "engineering",
-    shortDescription: "Engineered and deployed industrialized ML models to edge hardware to virtualize thermal sensors with 96% accuracy.",
-    longDescription: "At Jaguar Land Rover, I led the development and deployment of industrialized Machine Learning models directly onto Edge hardware. This system successfully virtualized physical thermal sensors aboard the vehicle platform, achieving a 96% real-time prediction accuracy. I also built a comprehensive ML data pipeline that reduced the overall model delivery and testing cycle from 1 week down to just 4 hours.",
-    tags: ["Machine Learning", "Python"],
+    shortDescription: "Engineered and deployed ML models to virtualize eight thermal sensors with **96% accuracy**.",
+    longDescription: "At Jaguar Land Rover, I led the development and deployment of **industrialized Machine Learning models** directly onto **Edge hardware**. This system successfully virtualized physical thermal sensors aboard the vehicle platform, achieving a **96% real-time prediction accuracy**. I also built a comprehensive **ML data pipeline** that reduced the overall model delivery and testing cycle from **1 week down to just 4 hours**.",
+    tags: ["Machine Learning", "Python", "MATLAB", "Simulink"],
     link: "#"
   },
   {
     slug: "jlr-advanced-controls",
-    title: "Advanced Powertrain EKF & MPC",
+    title: "State Estimation using EKF",
     date: "May 2024 - Present",
     type: "engineering",
     shortDescription: "Developing grey-box state estimation algorithms and an MPC architecture for vehicle powertrain hypervisors.",
