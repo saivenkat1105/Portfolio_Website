@@ -28,9 +28,30 @@ const skillsMap = {
 };
 
 const achievements = [
-  "Placed **1st** at the Indian Rover Challenge 2019 and **12th internationally** at the University Rover Challenge 2019 with Team Anveshak, IIT Madras.",
-  "Achieved a **GPA of 9.14** in Dual Degree (B.Tech + M.Tech) in Mechanical Engineering at IIT Madras.",
-  "Reduced ML model delivery cycle at **Jaguar Land Rover** from 1 week to 4 hours with an end-to-end ML pipeline.",
+  {
+    year: "2026",
+    items: [
+      "Reduced ML model delivery cycle at **Jaguar Land Rover** from 1 week to **4 hours** by developing an automated ML pipeline.",
+    ]
+  },
+  {
+    year: "2024",
+    items: [
+      "Graduated with a **GPA of 9.14** in Dual Degree (B.Tech + M.Tech) in Mechanical Engineering from **IIT Madras**.",
+    ]
+  },
+  {
+    year: "2020",
+    items: [
+      "Placed **5th** internationally at the Indian Rover Challenge 2020 with the *Dark Knight* rover.",
+    ]
+  },
+  {
+    year: "2019",
+    items: [
+      "Placed **1st** at the Indian Rover Challenge 2019 and **12th internationally** at the University Rover Challenge 2019 with Team Anveshak, IIT Madras.",
+    ]
+  }
 ];
 
 // Slug mapping for Simple Icons
@@ -252,9 +273,9 @@ export default function Home() {
 
       {/* 2. Skills & Tools Tile Layout */}
       <section id="skills" className="pt-24 scroll-mt-14">
-        <div className="mb-12 space-y-4">
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight">Tech Stack</h1>
-          <p className="text-xl md:text-2xl font-bold text-muted-foreground/80">What I think I am good at.</p>
+        <div className="space-y-4 mb-4">
+          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Tech Stack</h1>
+          <p className="text-xl md:text-2xl font-bold text-muted-foreground/80">Expertise and toolset.</p>
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 md:gap-12">
           {/* Column 1: Skillset */}
@@ -473,27 +494,58 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.5 }}
         >
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Achievements</h1>
-          <p className="text-xl md:text-2xl font-bold text-muted-foreground/80">What I can brag about ...</p>
+          <div className="space-y-4 mb-4">
+            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Achievements</h1>
+            <p className="text-xl md:text-2xl font-bold text-muted-foreground/80">What I can brag about ...</p>
+          </div>
 
-          <div className="mt-8 bg-card p-8 rounded-[2rem] border border-border shadow-sm">
-            <ul className="space-y-4">
-              {achievements.map((achievement, idx) => (
-                <li key={idx} className="flex items-start gap-3 text-muted-foreground">
-                  <span className="mt-2 h-2 w-2 rounded-full bg-primary shrink-0" />
-                  <span className="text-sm leading-relaxed">
-                    <ReactMarkdown
-                      components={{
-                        p: ({ children }) => <span>{children}</span>,
-                        strong: ({ children }) => <strong className="text-primary font-extrabold">{children}</strong>,
-                      }}
-                    >
-                      {achievement}
-                    </ReactMarkdown>
+          <div className="relative pl-8 md:pl-12 border-l border-border/60 space-y-12 ml-4 md:ml-8">
+            {achievements.map((group, groupIdx) => (
+              <motion.div
+                key={groupIdx}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: groupIdx * 0.1 }}
+                className="relative"
+              >
+                {/* Timeline Dot */}
+                <div className="absolute -left-12 md:-left-[3.25rem] top-1.5 h-6 w-6 rounded-full bg-background border-2 border-primary shadow-[0_0_10px_rgba(var(--primary),0.3)] z-10 flex items-center justify-center">
+                  <div className="h-2 w-2 rounded-full bg-primary" />
+                </div>
+
+                {/* Year Label */}
+                <div className="mb-4">
+                  <span className="px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-bold border border-primary/20">
+                    {group.year}
                   </span>
-                </li>
-              ))}
-            </ul>
+                </div>
+
+                {/* Achievement Cards */}
+                <div className="grid gap-4">
+                  {group.items.map((item, itemIdx) => (
+                    <div
+                      key={itemIdx}
+                      className="group bg-card hover:bg-accent/40 p-5 rounded-2xl border border-border/50 shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary/20"
+                    >
+                      <div className="flex gap-4 items-start">
+                        <div className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary/40 group-hover:bg-primary transition-colors shrink-0" />
+                        <span className="text-sm md:text-base leading-relaxed text-muted-foreground group-hover:text-foreground transition-colors">
+                          <ReactMarkdown
+                            components={{
+                              p: ({ children }) => <span>{children}</span>,
+                              strong: ({ children }) => <strong className="text-primary font-extrabold">{children}</strong>,
+                            }}
+                          >
+                            {item}
+                          </ReactMarkdown>
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
       </section>
@@ -506,14 +558,14 @@ export default function Home() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex items-end justify-between mb-2">
-            <div>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-4">
+            <div className="space-y-4">
               <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Blog</h1>
-              <p className="mt-3 text-muted-foreground">Personal writing on robotics, ML, and everything in between.</p>
+              <p className="text-xl md:text-2xl font-bold text-muted-foreground/80">The nonsense that I spew...</p>
             </div>
             <a
               href="/blog"
-              className="text-sm font-semibold text-primary hover:underline shrink-0"
+              className="text-sm font-semibold text-primary hover:underline shrink-0 pb-1"
             >
               All Articles →
             </a>
@@ -531,7 +583,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-primary/10 via-background to-background pointer-events-none" />
           <h1 className="text-5xl font-extrabold tracking-tight z-10">Get in Touch</h1>
           <p className="text-muted-foreground text-lg z-10 max-w-md px-4">
-            Always open for a chat about physical AI systems, robotics, or creative software engineering.
+            Always open for a chat about physical AI systems, robotics, or life.
           </p>
           <a href="mailto:1105saivenkat@gmail.com" className="z-10 px-8 py-4 bg-primary text-primary-foreground font-bold tracking-wide rounded-2xl shadow-xl shadow-primary/25 hover:-translate-y-1 transition-all duration-300">
             Drop an Email
