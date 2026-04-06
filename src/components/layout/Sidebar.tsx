@@ -25,7 +25,7 @@ export function Sidebar() {
   };
 
   return (
-    <aside className="hidden md:block border-r border-border w-[240px] shrink-0 sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto px-4 py-8 relative z-50 bg-background">
+    <aside className="hidden md:block w-[240px] shrink-0 sticky top-14 h-[calc(100vh-3.5rem)] overflow-y-auto px-4 py-8 relative z-50 bg-transparent">
       <div className="flex flex-col gap-1 text-sm">
         {sections.map((sec) => {
           const isActive = activeSection === sec.id;

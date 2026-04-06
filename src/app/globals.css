@@ -18,41 +18,43 @@
 }
 
 :root {
-  --background: #ffffff;
+  --background: #d9d9dfc2;
   --foreground: #09090b;
 
-  --card: #ffffff;
+  --card: #ffffff99; /* Semi-transparent for Glass effect */
   --card-foreground: #09090b;
 
-  --primary: #0284c7; /* Steel Blue 600 */
+  --primary: #0284c7;
+  /* Steel Blue 600 */
   --primary-foreground: #ffffff;
 
-  --muted: #f4f4f5;
-  --muted-foreground: #71717a;
+  --muted: #0000000d;
+  --muted-foreground: #4b5563;
 
-  --accent: #f4f4f5;
-  --accent-foreground: #18181b;
+  --accent: #0000000d;
+  --accent-foreground: #111827;
 
-  --border: #e4e4e7;
+  --border: #0000001a;
 }
 
 .dark {
-  --background: #09090b;
+  --background: #353541b3;
   --foreground: #fafafa;
 
-  --card: #09090b;
+  --card: #1e1b4b4d; /* Deep Indigo-tinted dark glass */
   --card-foreground: #fafafa;
 
-  --primary: #38bdf8; /* Sky Blue 400 for Dark Mode Contrast */
+  --primary: #41c7d1;
+  /* Sky Blue 400 for Dark Mode Contrast */
   --primary-foreground: #ffffff;
 
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
+  --muted: #ffffff0d;
+  --muted-foreground: #9ca3af;
 
-  --accent: #27272a;
-  --accent-foreground: #fafafa;
+  --accent: #ffffff0d;
+  --accent-foreground: #f9fafb;
 
-  --border: #27272a;
+  --border: #ffffff1a;
 }
 
 body {

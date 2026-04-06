@@ -17,10 +17,10 @@ const DOMAIN_TAGS = ["Vibe Coded", "Robotics", "Machine Learning", "App Developm
 const TECH_STACK_TAGS = ["Python", "C++", "MATLAB", "Simulink", "ROS2", "Pytorch", "RL", "Nav2", "Fusion 360"];
 
 const skillsMap = {
-  "Languages": ["Python", "C++", "C", "SQL"],
-  "Simulation & Modeling": ["MATLAB", "Simulink", "Gazebo", "MuJoCo", "Isaac Sim"],
-  "Frameworks & Arch": ["ROS2 (Humble)", "Nav2", "SLAM Toolbox", "Next.js", "React"],
-  "Machine Learning": ["Pytorch", "Scikit-learn", "RL (PPO, SAC, DQN)", "RAG", "LLM"]
+  "Languages": ["Python", "C++"],
+  "Software/ Tools": ["MATLAB", "Simulink", "Gazebo", "MuJoCo", "Autodesk Fusion 360"],
+  "Frameworks": ["ROS2 (Humble)", "Nav2", "SLAM Toolbox", "PyTorch", "Scikit-learn"],
+  "Skillset": ["Control Systems", "Machine Learning", "Reinforcement Learning", "Mathematical Modelling", "Robotics Simulation", "State Estimation", "SLAM and Path Planning", "FEA", "Mechanical Design", "3D Printing"]
 };
 
 const experiences = [
@@ -64,52 +64,78 @@ const educations = [
 const skillSlugMap: Record<string, string> = {
   "Python": "python",
   "C++": "cplusplus",
-  "C": "c",
-  "SQL": "sqlite",
   "MATLAB": "mathworks",
   "Simulink": "mathworks",
   "Gazebo": "gazebo",
   "MuJoCo": "openai", // Fallback for specialized robotics
-  "Isaac Sim": "nvidia",
+  "Autodesk Fusion 360": "autodesk",
   "ROS2 (Humble)": "ros",
   "Nav2": "ros",
   "SLAM Toolbox": "ros",
-  "Next.js": "nextdotjs",
-  "React": "react",
-  "Pytorch": "pytorch",
+  "PyTorch": "pytorch",
   "Scikit-learn": "scikitlearn",
-  "RL (PPO, SAC, DQN)": "openai",
-  "RAG": "meta",
-  "LLM": "openai"
+  "RL (PPO, SAC, DQN)": "openai"
 };
 
 // Helper to define category-specific styling
 const categoryTheme = {
-  "Languages": { 
-    color: "text-blue-600 dark:text-blue-400", 
+  "Languages": {
+    color: "text-blue-600 dark:text-blue-400",
     accent: "bg-blue-500",
   },
-  "Simulation & Modeling": { 
-    color: "text-emerald-600 dark:text-emerald-400", 
+  "Software/ Tools": {
+    color: "text-emerald-600 dark:text-emerald-400",
     accent: "bg-emerald-500",
   },
-  "Frameworks & Arch": { 
-    color: "text-amber-600 dark:text-amber-400", 
+  "Frameworks": {
+    color: "text-amber-600 dark:text-amber-400",
     accent: "bg-amber-500",
   },
-  "Machine Learning": { 
-    color: "text-cyan-600 dark:text-cyan-400", 
+  "Skillset": {
+    color: "text-cyan-600 dark:text-cyan-400",
     accent: "bg-cyan-500",
   }
 };
 
+// Skills that prioritize local assets from /public/icons/tech/
+const LOCAL_ICONS: Record<string, string> = {
+  "MATLAB": "png",
+  "Simulink": "png",
+  "Gazebo": "png",
+  "MuJoCo": "png",
+  "PyTorch": "png",
+  "Scikit-learn": "png"
+};
+
 function getIconForSkill(skill: string) {
   const slug = skillSlugMap[skill];
-  if (!slug) return <Code className="w-4 h-4 text-black" />;
   
+  // 1. Priority Local Load for high-fidelity brand icons
+  if (LOCAL_ICONS[skill]) {
+    const ext = LOCAL_ICONS[skill];
+    return (
+      <img
+        src={`/icons/tech/${skill}.${ext}`}
+        alt={skill}
+        className="w-4 h-4 object-contain"
+        onError={(e) => {
+          // Final fallback to CDN or Avatar if local file is missing
+          const target = e.target as HTMLImageElement;
+          if (slug) {
+            target.src = `https://cdn.simpleicons.org/${slug}`;
+          } else {
+            target.src = `https://ui-avatars.com/api/?name=${skill}&background=white&color=black&size=32&bold=true`;
+          }
+        }}
+      />
+    );
+  }
+
+  if (!slug) return <Code className="w-4 h-4 text-black" />;
+
   return (
-    <img 
-      src={`https://cdn.simpleicons.org/${slug}`} 
+    <img
+      src={`https://cdn.simpleicons.org/${slug}`}
       alt={skill}
       className="w-4 h-4 object-contain"
       onError={(e) => {
@@ -183,10 +209,29 @@ export default function Home() {
 
             <div className="space-y-6 text-muted-foreground leading-relaxed text-lg pb-8 border-b border-border/50">
               <p>
-                Hello! I am deeply passionate about bridging the gap between theoretical models and real-world physical systems. I specialize in the full engineering lifecycle: translating complex system requirements into mathematical models, testing them in simulation frameworks (MATLAB/Simulink, Gazebo, MuJoCo), and deploying data-driven control strategies to hardware.
+                Hey there! Welcome to <span className="text-primary font-semibold">my space</span>. I really want to tell you that this is not your
+                regular portfolio page that you haven't seen already but unfortunately it is. I currently
+                work at <span className="text-primary font-semibold">Jaguar Land Rover</span> on building <span className="text-primary font-semibold">Virtual Sensors</span> and <span className="text-primary font-semibold">Advanced Control Systems</span> to improve vehicle range. My speciality lies in handling the <span className="text-primary font-semibold">entire engineering lifecycle</span> -
+                translating the initial fuzzy ideas
+                to concrete requirements, building the initial MVPs and the finally
+                developing a production ready system.
               </p>
               <p>
-                Currently, my core focus is on the rapidly evolving Physical AI space. I want to build systems that interact intelligently with the physical world, pushing the boundaries of what autonomous systems can accomplish by blending traditional mechatronics with Edge AI.
+                Aside from my standard intro, what I really love is <span className="text-primary font-semibold">solving complex problems</span>
+                and I have always loved machines doing things on their own. So I figured <span className="text-primary font-semibold">robotics</span> is a pretty good field to work on. I worked on some amazing projects like <span className="text-primary font-semibold">building rovers, autonomous wheelchairs,
+                  pipeline robots</span> in university.
+                Then life took a different turn and I ended up
+                in the automobile industry which was equally exciting, but a small part of me always stayed with robotics.
+              </p>
+              <p>
+                I am proficient in <span className="text-primary font-semibold">classical and modern control systems, applied ML and
+                  RL</span>. I also love <span className="text-primary font-semibold">chess, travel and movies. </span>
+                My current passion project is vibe coding everything that I can think of.
+                The rapidly evolving <span className="text-primary font-semibold">physical AI</span> space is something I am excited about and would
+                like to contribute towards. If you want to talk about robotics, engineering,
+                how to improve my chess ELO or
+                anything under the sun, hit me up.
+
               </p>
             </div>
 
@@ -236,41 +281,88 @@ export default function Home() {
       <section id="skills" className="pt-24 scroll-mt-14">
         <div className="mb-12 space-y-4">
           <h1 className="text-4xl md:text-5xl font-black tracking-tight">Tech Stack</h1>
-          <p className="text-xl md:text-2xl font-bold text-muted-foreground/80">Learned by coding and building robotics systems.</p>
+          <p className="text-xl md:text-2xl font-bold text-muted-foreground/80">What I think I am good at.</p>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          {Object.entries(skillsMap).map(([category, skills]) => {
-            const theme = categoryTheme[category as keyof typeof categoryTheme];
-            return (
-              <div key={category} className="space-y-6">
-                <div className="flex items-center gap-4">
-                  <div className={`h-1.5 w-12 rounded-full ${theme?.accent}`} />
-                  <h3 className={`text-2xl font-black tracking-tight ${theme?.color}`}>
-                    {category}
-                  </h3>
-                </div>
-                
-                <div className="flex flex-wrap gap-3">
-                  {skills.map((skill) => (
-                    <motion.div
-                      key={skill}
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="flex items-center px-4 py-2 bg-white border border-border shadow-sm rounded-lg group cursor-default"
-                    >
-                      <div className="w-5 h-5 flex items-center justify-center shrink-0">
-                        {getIconForSkill(skill)}
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-8 md:gap-12">
+          {/* Column 1: Skillset */}
+          <div className="space-y-8">
+            {Object.entries(skillsMap)
+              .filter(([category]) => category === "Skillset")
+              .map(([category, skills]) => {
+                const theme = categoryTheme[category as keyof typeof categoryTheme];
+                return (
+                  <div key={category} className={`p-6 rounded-[2rem] border border-border bg-card/50 transition-all hover:bg-card hover:shadow-md relative overflow-hidden group h-full`}>
+                    <div className={`absolute top-0 left-0 w-1.5 h-full ${theme?.accent} opacity-20 group-hover:opacity-100 transition-opacity`} />
+                    <div className="space-y-6">
+                      <div className="flex items-center gap-4">
+                        <div className={`h-1.5 w-8 rounded-full ${theme?.accent}`} />
+                        <h3 className="text-2xl font-black tracking-tight text-foreground">
+                          {category}
+                        </h3>
                       </div>
-                      <span className="ml-3 text-black text-sm font-bold tracking-tight">
-                        {skill}
-                      </span>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+
+                      <div className="flex flex-wrap gap-3">
+                        {skills.map((skill) => (
+                          <motion.div
+                            key={skill}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="flex items-center px-4 py-2 bg-white border border-border shadow-sm rounded-lg group cursor-default"
+                          >
+                            <div className="w-5 h-5 flex items-center justify-center shrink-0">
+                              {getIconForSkill(skill)}
+                            </div>
+                            <span className="ml-3 text-black text-sm font-bold tracking-tight">
+                              {skill}
+                            </span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
+
+          {/* Column 2: Others */}
+          <div className="flex flex-col gap-8 md:gap-12">
+            {Object.entries(skillsMap)
+              .filter(([category]) => category !== "Skillset")
+              .map(([category, skills]) => {
+                const theme = categoryTheme[category as keyof typeof categoryTheme];
+                return (
+                  <div key={category} className={`p-6 rounded-[2rem] border border-border bg-card/50 transition-all hover:bg-card hover:shadow-md relative overflow-hidden group`}>
+                    <div className={`absolute top-0 left-0 w-1.5 h-full ${theme?.accent} opacity-20 group-hover:opacity-100 transition-opacity`} />
+                    <div className="space-y-6">
+                      <div className="flex items-center gap-4">
+                        <div className={`h-1.5 w-8 rounded-full ${theme?.accent}`} />
+                        <h3 className="text-2xl font-black tracking-tight text-foreground">
+                          {category}
+                        </h3>
+                      </div>
+
+                      <div className="flex flex-wrap gap-3">
+                        {skills.map((skill) => (
+                          <motion.div
+                            key={skill}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="flex items-center px-4 py-2 bg-white border border-border shadow-sm rounded-lg group cursor-default"
+                          >
+                            <div className="w-5 h-5 flex items-center justify-center shrink-0">
+                              {getIconForSkill(skill)}
+                            </div>
+                            <span className="ml-3 text-black text-sm font-bold tracking-tight">
+                              {skill}
+                            </span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+          </div>
         </div>
       </section>
 
