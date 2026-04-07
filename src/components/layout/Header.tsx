@@ -27,14 +27,6 @@ export function Header() {
         </div>
         <div className="flex flex-1 items-center justify-end space-x-2">
           <nav className="flex items-center gap-1.5">
-            <div className="hidden md:block">
-              <button 
-                className="inline-flex text-muted-foreground items-center justify-center rounded-md border border-border bg-background hover:bg-accent hover:text-accent-foreground h-9 px-3 text-sm font-medium transition-colors cursor-pointer"
-                onClick={() => document.dispatchEvent(new CustomEvent("open-command-palette"))}
-              >
-                Search... <kbd className="ml-2 pointer-events-none rounded border border-border bg-muted px-1.5 font-mono text-[10px]">&nbsp;⌘K&nbsp;</kbd>
-              </button>
-            </div>
             <ThemeToggle />
           </nav>
         </div>

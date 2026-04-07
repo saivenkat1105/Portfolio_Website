@@ -10,14 +10,7 @@ export type BlogPost = {
 // This catalog is the source of truth for METADATA.
 // Article CONTENT lives in /content/blog/[slug].md
 export const allBlogPosts: BlogPost[] = [
-  {
-    slug: "team-anveshak",
-    title: "Team Anveshak: The Story of Me and A Mars Rover",
-    date: "June 9, 2020",
-    coverImage: "/projects/Anveshak.avif",
-    tags: ["Robotics", "Personal"],
-    excerpt: "If I had to describe my 3 years at IIT Madras with a single word, it would be Anveshak. This is the story of building 3 Mars Rovers, winning competitions, and growing up.",
-  },
+
 
   {
     slug: "dish-washing",
@@ -34,6 +27,14 @@ export const allBlogPosts: BlogPost[] = [
     coverImage: "/blog/poetry_cover.avif",
     tags: ["Poetry", "Mythology"],
     excerpt: "A poem on the Women of Lemnos from Greek mythology and their encounter with the Argonauts.",
+  },
+  {
+    slug: "team-anveshak",
+    title: "Team Anveshak: The Story of Me and A Mars Rover",
+    date: "June 9, 2020",
+    coverImage: "/projects/Anveshak.avif",
+    tags: ["Robotics", "Personal"],
+    excerpt: "If I had to describe my 3 years at IIT Madras with a single word, it would be Anveshak. This is the story of building 3 Mars Rovers, winning competitions, and growing up.",
   },
   {
     slug: "12-years-a-student",
