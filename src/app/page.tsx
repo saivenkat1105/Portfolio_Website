@@ -15,16 +15,17 @@ import { allBlogPosts } from "@/data/blog";
 import { CoverflowCarousel } from "@/components/blog/CoverflowCarousel";
 import ReactMarkdown from "react-markdown";
 import { asset } from "@/lib/assets";
+import { useScrollSnap } from "@/hooks/useScrollSnap";
 
 // Defined strict taxonomy for tagging
-const DOMAIN_TAGS = ["Robotics", "ML", "RL", "Control Systems", "Mathematical Modelling", "Mechanical Design", "Vibe Coded"];
-const TECH_STACK_TAGS = ["Python/C++", "MATLAB/Simulink", "ROS2", "Gazebo", "MuJoCo", "Pytorch", "Fusion 360"];
+const DOMAIN_TAGS = ["RL", "Controls", "ML", "Robotics", "Modelling", "Mechanical Design", "Vibe Coded"];
+const TECH_STACK_TAGS = ["Python/C++", "MATLAB", "ROS2", "Gazebo", "MuJoCo", "PyTorch", "Fusion 360"];
 
 const skillsMap = {
   "Languages": ["Python", "C++"],
   "Software/ Tools": ["MATLAB", "Simulink", "Gazebo", "MuJoCo", "Autodesk Fusion 360"],
-  "Frameworks": ["ROS2 (Kilted Kaiju)", "PyTorch", "Scikit-learn", "stable-baselines3", "Gymnasium"],
-  "Skillset": ["Control Systems", "Machine Learning", "Reinforcement Learning", "Mathematical Modelling", "Robotics Simulation", "FEA", "Mechanical Design", "3D Printing"]
+  "Frameworks": ["ROS2 (Kilted Kaiju)", "PyTorch", "Scikit-learn", "stable-baselines3", "Gymnasium", "LeRobot"],
+  "Skillset": ["Reinforcement Learning", "Controls", "Machine Learning", "Modelling", "Robotics Simulation", "FEA", "Mechanical Design", "3D Printing"]
 };
 
 const achievements = [
@@ -98,10 +99,20 @@ const LOCAL_ICONS: Record<string, string> = {
   "Gazebo": "png",
   "MuJoCo": "png",
   "PyTorch": "png",
-  "Scikit-learn": "png"
+  "Scikit-learn": "png",
+  "stable-baselines3": "png",
+  "Gymnasium": "png"
 };
 
 function getIconForSkill(skill: string) {
+  // Direct overrides for skills with special characters in names or custom logos
+  if (skill === "ROS2 (Kilted Kaiju)") {
+    return <img src={asset("/icons/tech/ros2.svg")} alt="ROS2" className="w-4 h-4 object-contain" />;
+  }
+  if (skill === "LeRobot") {
+    return <img src={asset("/icons/tech/lerobot.png")} alt="LeRobot" className="w-4 h-4 object-contain" />;
+  }
+
   const slug = skillSlugMap[skill];
 
   // 1. Priority Local Load for high-fidelity brand icons
@@ -141,6 +152,7 @@ function getIconForSkill(skill: string) {
 
 export default function Home() {
   const [activeTags, setActiveTags] = useState<string[]>([]);
+  const [projectPage, setProjectPage] = useState(0);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   // Listen for navigation events to safely discard the modal popup
@@ -153,6 +165,7 @@ export default function Home() {
   }, []);
 
   const toggleTag = (tag: string) => {
+    setProjectPage(0);
     if (tag === "All") {
       setActiveTags([]);
       return;
@@ -161,6 +174,8 @@ export default function Home() {
       prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]
     );
   };
+
+  // Snap between short full-page sections (intro + tech stack)
 
   const getFilteredAndSorted = (projects: Project[]) => {
     let result = projects;
@@ -190,7 +205,7 @@ export default function Home() {
           transition={{ duration: 0.6 }}
           className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(260px,320px)] gap-16 items-center w-full"
         >
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div>
               <h1 className="text-2xl font-extrabold tracking-tight sm:text-3xl md:text-4xl/tight">
                 Sai Venkat Gunda
@@ -202,32 +217,35 @@ export default function Home() {
 
             <div className="space-y-4 text-muted-foreground leading-relaxed text-sm">
               <p>
-                Developing <span className="text-primary font-semibold">Advanced Control Algorithms</span>(MPC, EKF) for thermal management systems and <span className="text-primary font-semibold">deployable ML models</span> at
+                Developing <span className="text-primary font-semibold">Advanced Control Algorithms</span> (MPC, EKF) for thermal management systems and <span className="text-primary font-semibold">deployable ML models</span> at
                 <span className="text-primary font-semibold"> Jaguar Land Rover</span> to improve vehicle range and performance.
                 Experienced in handling the entire <span className="text-primary font-semibold">engineering life cycle </span> taking concepts through ideation → simulation → deployment.
-                Always amazed by thinking and moving machines aka <span className="text-primary font-semibold">Robotics.</span>
+
               </p>
               <p>
+                Making inanimate objects think and move aka <span className="text-primary font-semibold">Robotics</span> fascinates me.
+                Specialized in <span className="text-primary font-semibold">RL, Controls, ML</span>. Experience in building robots from scratch both in simulation and real.
 
-                Specialized in <span className="text-primary font-semibold">RL, Controls, ML</span> with experience of building robots from scratch both in simulation and real.
 
-                Love <span className="text-primary font-semibold">solving hard problems</span> whatever the field.
                 Excited about <span className="text-primary font-semibold">Physical AI </span> and looking to contribute in this space.
               </p>
-              <p>Addicted to Chess, Badminton, Travel (beaches 🏖️, mountains 🏔️ and everything in between), good food and great sleep. Also books and movies. Sometimes cooking.
+              <p>
+                Love solving hard problems. High agency. Always curious. I thrive under pressure.
+              </p>
+              <p>My free time is for ♟️, 🏸,  🏖️, 🏔️, 🍜, 😴. Also 📚 and 🎬. Sometimes 👨‍🍳.
                 Always up to learn something new.
               </p>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               <p className="text-primary font-semibold text-base">Highlights</p>
               <ul className="space-y-2.5">
                 {[
-                  { text: "Developed automotive industry's **first energy based thermal management controller** @ JLR" },
-                  { text: "**Patent** - GB2638440A - Target cabin temperature determination for HVAC system of battery electric vehicle" },
-                  { text: "Virtual Sensor & Control Systems @ Jaguar Land Rover" },
-                  { text: "Proficient in Control Systems, Applied ML, and Reinforcement Learning" },
-                  { text: "Currently excited about Physical AI and Embodied Intelligence" },
+                  { text: "Developed industry's **first energy based thermal controller** @ JLR - improving range by 10%" },
+                  { text: "**Patent** - GB202402518D0 - a personalized thermal comfort controller" },
+                  { text: "Multiple robotics projects and competitions - won some, lost some but enjoyed and learnt from all of them." },
+
+                  { text: "M.Tech and B.Tech(Hons.) from IIT Madras with a 9.14 GPA" },
                 ].map((item, i) => (
                   <motion.li
                     key={i}
@@ -286,14 +304,11 @@ export default function Home() {
           </div>
         </motion.div>
 
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center animate-bounce text-muted-foreground/50">
-          <ChevronDown className="h-6 w-6" />
-        </div>
+
       </section>
 
       {/* 2. Skills & Tools Tile Layout */}
-      <section id="skills" className="pt-24 scroll-mt-14">
+      <section id="skills" className="pt-8 scroll-mt-14">
         <div className="space-y-4 mb-4">
           <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Tech Stack</h1>
           <p className="text-xl md:text-2xl font-bold text-muted-foreground/80">What I am good at</p>
@@ -311,7 +326,7 @@ export default function Home() {
                     <div className="space-y-6">
                       <div className="flex items-center gap-4">
                         <div className={`h-1.5 w-8 rounded-full ${theme?.accent}`} />
-                        <h3 className="text-2xl font-black tracking-tight text-foreground">
+                        <h3 className="text-lg font-bold tracking-tighter text-foreground">
                           {category}
                         </h3>
                       </div>
@@ -327,7 +342,7 @@ export default function Home() {
                             <div className="w-5 h-5 flex items-center justify-center shrink-0">
                               {getIconForSkill(skill)}
                             </div>
-                            <span className="ml-3 text-black text-sm font-bold tracking-tight">
+                            <span className="ml-3 text-black text-sm font-medium tracking-tighter">
                               {skill}
                             </span>
                           </motion.div>
@@ -340,18 +355,18 @@ export default function Home() {
           </div>
 
           {/* Column 2: Others */}
-          <div className="flex flex-col gap-8 md:gap-12">
+          <div className="flex flex-col gap-6 md:gap-8">
             {Object.entries(skillsMap)
               .filter(([category]) => category !== "Skillset")
               .map(([category, skills]) => {
                 const theme = categoryTheme[category as keyof typeof categoryTheme];
                 return (
-                  <div key={category} className={`p-6 rounded-[2rem] border border-border bg-card/50 transition-all hover:bg-card hover:shadow-md relative overflow-hidden group`}>
-                    <div className={`absolute top-0 left-0 w-1.5 h-full ${theme?.accent} opacity-20 group-hover:opacity-100 transition-opacity`} />
-                    <div className="space-y-6">
-                      <div className="flex items-center gap-4">
-                        <div className={`h-1.5 w-8 rounded-full ${theme?.accent}`} />
-                        <h3 className="text-2xl font-black tracking-tight text-foreground">
+                  <div key={category} className={`p-5 rounded-[2rem] border border-border bg-card/50 transition-all hover:bg-card hover:shadow-md relative overflow-hidden group`}>
+                    <div className={`absolute top-0 left-0 w-1 h-full ${theme?.accent} opacity-20 group-hover:opacity-100 transition-opacity`} />
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-2">
+                        <div className={`h-1 w-6 rounded-full ${theme?.accent}`} />
+                        <h3 className="text-lg font-bold tracking-tighter text-foreground">
                           {category}
                         </h3>
                       </div>
@@ -367,7 +382,7 @@ export default function Home() {
                             <div className="w-5 h-5 flex items-center justify-center shrink-0">
                               {getIconForSkill(skill)}
                             </div>
-                            <span className="ml-3 text-black text-sm font-bold tracking-tight">
+                            <span className="ml-3 text-black text-sm font-medium tracking-tighter">
                               {skill}
                             </span>
                           </motion.div>
@@ -381,131 +396,163 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. Filterable Projects Engine */}
-      <section id="projects" className="pt-24 scroll-mt-14">
-        <div className="space-y-4 mb-4">
-          <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl">Projects</h1>
-          <p className="text-xl md:text-2xl font-bold text-muted-foreground/80">What all have I been up to ...</p>
-        </div>
+      {/* 3. Filterable Projects Engine — paginated, full-viewport */}
+      <section id="projects" className="pt-16 scroll-mt-8 flex flex-col h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)]">
 
-        {/* Local Sidebar Layout */}
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 xl:gap-12 relative items-start mt-8">
-
-          {/* Local Sticky Filter Engine */}
-          <div className="w-full md:w-40 lg:w-48 xl:w-56 shrink-0 sticky top-20 md:top-24 max-h-[calc(100vh-6rem)] overflow-y-auto no-scrollbar pb-4 md:pb-8 flex flex-col gap-4 md:gap-6 z-20 bg-background/95 md:bg-transparent backdrop-blur-md md:backdrop-blur-none border-b md:border-none border-border/50 -mx-4 px-4 md:mx-0 md:px-0 pt-2 md:pt-0">
-            <button
-              onClick={() => toggleTag("All")}
-              className={`w-full px-4 py-2 rounded-lg text-sm font-bold transition-all text-left border shadow-sm ${activeTags.length === 0 ? "bg-primary/10 text-primary border-primary/30" : "bg-card border-border/50 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                }`}
-            >
-              All Projects
-            </button>
-
-            {/* Domain List */}
-            <div className="flex flex-col gap-2 md:gap-3">
-              <h3 className="text-[10px] md:text-xs font-black text-muted-foreground uppercase tracking-widest pl-2 border-l-2 border-primary/30">Domains</h3>
-              <div className="flex flex-row md:flex-col gap-1.5 flex-nowrap overflow-x-auto no-scrollbar pb-1 md:pb-0 md:flex-wrap">
-                {DOMAIN_TAGS.map(tag => {
-                  const isActive = activeTags.includes(tag);
-                  return (
-                    <button
-                      key={tag}
-                      onClick={() => toggleTag(tag)}
-                      className={`shrink-0 px-3 py-1.5 md:py-1 md:px-2 rounded-md text-[11px] md:text-sm font-semibold transition-all text-left border md:border-none ${isActive ? "bg-primary text-primary-foreground md:bg-primary/10 md:text-primary md:border-primary/30 shadow md:shadow-none" : "bg-card border-border/50 md:bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                        }`}
-                    >
-                      {tag}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Tech Stack List */}
-            <div className="flex flex-col gap-2 md:gap-3">
-              <h3 className="text-[10px] md:text-xs font-black text-muted-foreground uppercase tracking-widest pl-2 border-l-2 border-primary/30">Tech Stack</h3>
-              <div className="flex flex-row md:flex-col gap-1.5 flex-nowrap overflow-x-auto no-scrollbar pb-1 md:pb-0 md:flex-wrap">
-                {TECH_STACK_TAGS.map(tag => {
-                  const isActive = activeTags.includes(tag);
-                  return (
-                    <button
-                      key={tag}
-                      onClick={() => toggleTag(tag)}
-                      className={`shrink-0 px-3 py-1.5 md:py-1 md:px-2 rounded-md text-[11px] md:text-sm font-semibold transition-all text-left border md:border-none ${isActive ? "bg-primary text-primary-foreground md:bg-primary/10 md:text-primary md:border-primary/30 shadow md:shadow-none" : "bg-card border-border/50 md:bg-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground"
-                        }`}
-                    >
-                      {tag}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+        {/* Header & Filters Row */}
+        <div className="flex flex-col xl:flex-row xl:justify-between xl:items-end gap-4 mb-4 shrink-0">
+          {/* Header */}
+          <div className="space-y-1 shrink-0">
+            <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl">Projects</h1>
+            <p className="text-base font-bold text-muted-foreground/80">Everything I am up to ...</p>
           </div>
 
-          {/* Unified Projects Grid */}
-          <div className="flex-1 min-w-0 w-full project-grid">
-            <div className="grid gap-6 sm:grid-cols-1 xl:grid-cols-2">
-              <AnimatePresence mode="popLayout">
-                {filteredProjects.map((project) => {
-                  const isVibe = project.type === 'vibe';
-                  return (
-                    <motion.div
-                      key={project.slug}
-                      layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9, filter: "blur(4px)" }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <button onClick={() => setSelectedProject(project)} className={`text-left flex flex-col h-full w-full rounded-[2rem] border border-border shadow-sm transition-all group hover:-translate-y-1 ${isVibe
-                        ? "bg-gradient-to-br from-card to-muted p-8 hover:shadow-xl border-l-4 border-l-primary"
-                        : "bg-card p-8 hover:shadow-xl hover:border-primary/50"
-                        }`}>
-                        <div className="flex justify-between items-start mb-4 w-full">
-                          <h3 className="text-2xl font-bold group-hover:text-primary transition-colors pr-4">{project.title}</h3>
-                          <ExternalLink className="h-5 w-5 text-muted-foreground/30 group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0 shrink-0" />
+          {/* Filter rows */}
+          <div className="flex flex-col gap-2 shrink-0 xl:items-end">
+            {/* Domains row */}
+            <div className="flex items-center gap-2 flex-wrap xl:justify-end">
+              <button
+                onClick={() => toggleTag("All")}
+                className={`px-3 py-0.5 rounded-full text-xs font-semibold border transition-all ${activeTags.length === 0 ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border text-muted-foreground hover:border-primary/50"
+                  }`}
+              >All</button>
+              {DOMAIN_TAGS.map(tag => {
+                const isActive = activeTags.includes(tag);
+                return (
+                  <button key={tag} onClick={() => toggleTag(tag)}
+                    className={`px-3 py-0.5 rounded-full text-xs font-semibold border transition-all ${isActive ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border text-muted-foreground hover:border-primary/50"
+                      }`}
+                  >{tag}</button>
+                );
+              })}
+              <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest shrink-0 border-r-2 border-primary/40 pr-2 ml-2">Domains</span>
+            </div>
+            {/* Tech Stack row */}
+            <div className="flex items-center gap-2 flex-wrap xl:justify-end">
+              {TECH_STACK_TAGS.map(tag => {
+                const isActive = activeTags.includes(tag);
+                return (
+                  <button key={tag} onClick={() => toggleTag(tag)}
+                    className={`px-3 py-0.5 rounded-full text-xs font-semibold border transition-all ${isActive ? "bg-primary text-primary-foreground border-primary" : "bg-card border-border text-muted-foreground hover:border-primary/50"
+                      }`}
+                  >{tag}</button>
+                );
+              })}
+              <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest shrink-0 border-r-2 border-primary/40 pr-2 ml-2">Tech Stack</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Grid + pagination — grows to fill remaining height */}
+        <div className="flex-1 flex flex-col min-h-0">
+          {filteredProjects.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center rounded-[2rem] border border-dashed border-border">
+              <p className="text-muted-foreground">No projects match those filters.</p>
+              <button onClick={() => toggleTag("All")} className="mt-3 text-sm text-primary hover:underline">Clear Filters</button>
+            </div>
+          ) : (
+            <>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={projectPage}
+                  initial={{ opacity: 0, x: 40 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -40 }}
+                  transition={{ duration: 0.25 }}
+                  className="flex-1 min-h-0 grid grid-cols-2 grid-rows-2 gap-4"
+                >
+                  {filteredProjects.slice(projectPage * 4, projectPage * 4 + 4).map((project) => {
+                    const isVibe = project.type === 'vibe';
+                    return (
+                      <button
+                        key={project.slug}
+                        onClick={() => setSelectedProject(project)}
+                        className={`text-left flex flex-row w-full h-full rounded-[1.5rem] border border-border shadow-sm transition-all group hover:-translate-y-1 overflow-hidden min-h-0 ${isVibe ? "bg-gradient-to-br from-card to-muted hover:shadow-xl border-l-4 border-l-primary" : "bg-card hover:shadow-xl hover:border-primary/50"
+                          }`}
+                      >
+                        {/* Text content — left side */}
+                        <div className="flex flex-col flex-1 min-w-0 p-4 h-full">
+                          <div className="flex justify-between items-start mb-1 w-full shrink-0">
+                            <h3 className="text-base font-bold group-hover:text-primary transition-colors pr-2 leading-tight">{project.title}</h3>
+                            <ExternalLink className="h-4 w-4 text-muted-foreground/30 group-hover:text-primary opacity-0 group-hover:opacity-100 transition-all shrink-0" />
+                          </div>
+                          <p className={`text-[10px] font-mono mb-3 shrink-0 ${isVibe ? 'text-primary' : 'text-muted-foreground'}`}>{project.date}</p>
+                          <div className="text-muted-foreground text-sm leading-relaxed flex-1 overflow-y-auto no-scrollbar">
+                            <ReactMarkdown components={{ p: ({ children }) => <>{children}</>, strong: ({ children }) => <strong className="text-primary font-semibold">{children}</strong> }}>
+                              {project.shortDescription}
+                            </ReactMarkdown>
+                          </div>
+                          <div className="mt-4 flex flex-wrap gap-1.5">
+                            {project.tags.map(tag => (
+                              <span key={tag} className={`inline-flex items-center rounded-md border px-2 py-0.5 text-[9px] uppercase font-bold tracking-wider ${activeTags.includes(tag) ? "bg-primary border-primary text-primary-foreground" : "border-border/50 bg-background text-muted-foreground"
+                                }`}>{tag}</span>
+                            ))}
+                          </div>
                         </div>
-                        <p className={`mt-1 text-xs font-mono mb-6 ${isVibe ? 'text-primary' : 'text-muted-foreground'}`}>{project.date}</p>
-                        <div className="text-muted-foreground text-sm leading-relaxed flex-1">
-                          <ReactMarkdown
-                            components={{
-                              p: ({ children }) => <>{children}</>,
-                              strong: ({ children }) => <strong className="text-primary font-extrabold">{children}</strong>,
-                            }}
-                          >
-                            {project.shortDescription}
-                          </ReactMarkdown>
-                        </div>
-                        <div className="mt-8 flex flex-wrap gap-2">
-                          {project.tags.map(tag => {
-                            const isHighlighted = activeTags.includes(tag);
+
+                        {/* Media — right side, full height */}
+                        {(() => {
+                          const coverSrc = project.coverImage ?? null;
+                          const mediaSrc = project.images?.[0] ?? project.image ?? null;
+                          const videoSrc = project.video ?? null;
+
+                          if (coverSrc) {
                             return (
-                              <span key={tag} className={`inline-flex items-center rounded-lg border px-2.5 py-1 text-[10px] uppercase font-bold tracking-widest shadow-sm transition-colors ${isHighlighted
-                                ? "bg-primary border-primary text-primary-foreground"
-                                : (isVibe ? "border-border/50 bg-background/50 text-muted-foreground" : "border-border/50 bg-background text-muted-foreground")
-                                }`}>
-                                {tag}
-                              </span>
+                              <div className="w-2/5 shrink-0 overflow-hidden bg-muted">
+                                <img src={asset(coverSrc)} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                              </div>
                             );
-                          })}
-                        </div>
+                          }
+                          if (videoSrc) {
+                            return (
+                              <div className="w-2/5 shrink-0 overflow-hidden bg-muted">
+                                <video src={asset(videoSrc)} className="w-full h-full object-cover" muted autoPlay loop playsInline />
+                              </div>
+                            );
+                          }
+                          if (mediaSrc) {
+                            return (
+                              <div className="w-2/5 shrink-0 overflow-hidden bg-muted">
+                                <img src={asset(mediaSrc)} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                              </div>
+                            );
+                          }
+                          return (
+                            <div className={`w-2/5 shrink-0 ${isVibe ? "bg-gradient-to-b from-primary/10 to-muted" : "bg-gradient-to-b from-muted to-muted/40"}`} />
+                          );
+                        })()}
                       </button>
-                    </motion.div>
-                  )
-                })}
+                    );
+                  })}
+                </motion.div>
               </AnimatePresence>
-              {filteredProjects.length === 0 && (
-                <div className="col-span-full py-12 px-6 rounded-[2rem] border border-dashed border-border flex flex-col items-center justify-center text-center">
-                  <p className="text-muted-foreground">No projects found matching the selected tags.</p>
-                  <button onClick={() => toggleTag("All")} className="mt-4 text-sm text-primary hover:underline">Clear Filters</button>
+
+              {/* Pagination — right below the grid */}
+              {filteredProjects.length > 4 && (
+                <div className="flex items-center justify-between mt-3 shrink-0">
+                  <button
+                    onClick={() => setProjectPage(p => Math.max(0, p - 1))}
+                    disabled={projectPage === 0}
+                    className="px-4 py-1.5 rounded-full text-xs font-semibold border border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  >← Prev</button>
+                  <div className="flex gap-1.5 items-center">
+                    {Array.from({ length: Math.ceil(filteredProjects.length / 4) }).map((_, i) => (
+                      <button key={i} onClick={() => setProjectPage(i)}
+                        className={`h-1.5 rounded-full transition-all ${i === projectPage ? "w-6 bg-primary" : "w-1.5 bg-border hover:bg-primary/50"}`}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    onClick={() => setProjectPage(p => Math.min(Math.ceil(filteredProjects.length / 4) - 1, p + 1))}
+                    disabled={projectPage >= Math.ceil(filteredProjects.length / 4) - 1}
+                    className="px-4 py-1.5 rounded-full text-xs font-semibold border border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  >Next →</button>
                 </div>
               )}
-            </div>
-          </div>
+            </>
+          )}
         </div>
       </section>
-
-
 
       {/* 5. Achievements */}
       {false && (
@@ -616,28 +663,23 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_minmax(280px,340px)] gap-12 items-start">
             <div className="space-y-6 text-muted-foreground leading-relaxed text-lg">
               <p>
-                Hey there! Welcome to <span className="text-foreground font-semibold">my space</span>. I really want to tell you that this is not your
-                regular portfolio page that you haven't seen already but unfortunately it is. I currently
-                work at <span className="text-foreground font-semibold">Jaguar Land Rover</span> on building <span className="text-foreground font-semibold">Virtual Sensors</span> and <span className="text-foreground font-semibold">Advanced Control Systems</span> to improve vehicle range. My speciality lies in handling the <span className="text-foreground font-semibold">entire engineering lifecycle</span> —
-                translating the initial fuzzy ideas
-                to concrete requirements, building the initial MVPs and finally
-                developing a production ready system.
+                Hey there! Welcome to <span className="text-primary font-semibold">my space</span>. I really want to tell you that this is not your
+                regular portfolio page that you haven't seen already but unfortunately it is.
               </p>
               <p>
-                Looking beyond my standard intro, what I really love is <span className="text-foreground font-semibold">solving complex problems</span> and
-                I have always loved machines doing things on their own. So I figured <span className="text-foreground font-semibold">robotics</span> is a pretty good field to work on. I worked on some amazing projects like <span className="text-foreground font-semibold">building rovers, autonomous wheelchairs,
+
+                I have always loved machines. The idea that some inanimate objects can do intelligent tasks constantly amazes and excites me.
+                That pushed me towards <span className="text-primary font-semibold">robotics</span> . I worked on some amazing projects like <span className="text-primary font-semibold">building rovers, autonomous wheelchairs,
                   and pipeline robots</span> in university.
                 Then life took a different turn and I ended up
                 in the automobile industry which was equally exciting, but a small part of me always stayed with robotics.
               </p>
               <p>
-                I am proficient in <span className="text-foreground font-semibold">classical and modern control systems, applied ML, and
-                  RL</span>. I also love <span className="text-foreground font-semibold">chess, travel, and movies.</span>{" "}
-                My current passion project is vibe coding everything that I can think of.
-                The rapidly evolving <span className="text-foreground font-semibold">physical AI</span> space is something I am excited about and would
-                like to contribute towards. If you want to talk about robotics, engineering,
-                how to improve my chess Elo, or
-                anything under the sun, hit me up.
+                I am a fan of automation. I will spend 2 hours automating a task that can be done 1 hour if it means
+                I dont have to do something mundane. I am always full of ideas and <span className="text-primary font-semibold">vibe coding</span> has given  me a new lease of life
+                to build everything that I can think of. Most of them are useless but I am proud of every single vib-coded project I have worked on.
+                I am always up for discussing anything under the Sun, be it politics, technology, my chess ELO, how I think the world is a simulation,
+                or how I believe that the world is like the Truman show with me being the main character.
               </p>
             </div>
 

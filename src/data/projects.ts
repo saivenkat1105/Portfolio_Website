@@ -17,7 +17,21 @@ export type Project = {
 };
 
 export const allProjects: Project[] = [
+
   {
+    slug: "aic-challenge",
+    title: "Intrinsic AI for Industry Challenge",
+    date: "April 2026 - Present",
+    type: "engineering",
+    shortDescription: "Building ACT and diffusion models to solve the complex challenge of plug insertion in electronics assembly",
+    longDescription: "AI for Industry Challenge is organized by Intrinsic to build AI models to solve the complicated challenge of plug insertion in electronics assemblies. \n\n - Developed RCNN keypoint based algorithms to accurately identify SFP and SC ports. \n - Built ACT models to perform this complex task with a score of 72 out of 300 in the competition. \n - Currently building diffusion models for the maniuplator to handle high-dimensional, multi-modal copmlex task completion. ",
+    tags: ["RL", "Robotics", "ML", "Python/C++", "ROS2", "Gazebo", "MuJoCo", "PyTorch", "Control Systems"],
+    links: [{ text: "Git", url: "https://github.com/saivenkat1105/aic.git" }],
+    video: "/projects/aic_robot_video.mp4"
+  },
+  {
+
+
     slug: "jlr-virtual-sensors",
     title: "Virtual Sensors",
     date: "May 2024 - Present",
@@ -42,8 +56,20 @@ export const allProjects: Project[] = [
 
   },
   {
+    slug: "mars-rover",
+    title: "Autonomous All-terrain Mars Rover",
+    date: "Jan 2018 - May 2020",
+    type: "engineering",
+    shortDescription: "Led **Team Anveshak** in building a semi-autonomous **all-terrain Mars rover** complete with a **5 DOF manipulator** and a compliant gripper.",
+    longDescription: "Team and Traversal Lead for Team Anveshak, IIT Madras, which builds a **semi-autonomous Mars rover** for extra-terrestrial applications. \n\n - Led the Traversal team in developing a **rocker-bogie suspension system** capable of climbing **45 cm heights and 30 degree inclines**. \n - Developed a **5 DOF manipulator** with a compliant gripper and integrated a **closed-loop control system** using Inverse Kinematics for robust manipulation. \n - Won the Indian Rover Challenge 2019 and placed 12th internationally in the University Rover Challenge 2019.",
+    tags: ["Robotics", "Mechanical Design", "Control Systems", "ROS2", "Python/C++", "Fusion 360", "MATLAB/Simulink", "Gazebo"],
+    links: [{ text: "Blog Post", url: "https://1105saivenkat.wixsite.com/liteonly/post/team-anveshak-the-story-of-me-and-a-mars-rover" }],
+    images: ["/projects/Anveshak.avif", "/projects/Caesar.avif"],
+
+  },
+  {
     slug: "jlr-structural-cae",
-    title: "Reduced Order Modelling for Crash",
+    title: "Reduced Order Modelling for Frontal Crash",
     date: "July 2022 - May 2024",
     type: "engineering",
     shortDescription: "Developed 1D Reduced Order Models for Frontal Crash reducing computation time from **>12 hours to seconds** while preserving an **accuracy of 80%**.",
@@ -63,20 +89,10 @@ export const allProjects: Project[] = [
     links: [
       { text: "Thesis", url: "/projects/ME17B013_Thesis.pdf" }
     ],
-    images: ["/projects/elec_arch.png", "/projects/endobot.png"]
+    images: ["/projects/elec_arch.png", "/projects/endobot.png"],
+    coverImage: "/projects/endobot.png"
   },
-  {
-    slug: "mars-rover",
-    title: "Autonomous All-terrain Mars Rover",
-    date: "Jan 2018 - May 2020",
-    type: "engineering",
-    shortDescription: "Led **Team Anveshak** in building a semi-autonomous **all-terrain Mars rover** complete with a **5 DOF manipulator** and a compliant gripper.",
-    longDescription: "Team and Traversal Lead for Team Anveshak, IIT Madras, which builds a **semi-autonomous Mars rover** for extra-terrestrial applications. \n\n - Led the Traversal team in developing a **rocker-bogie suspension system** capable of climbing **45 cm heights and 30 degree inclines**. \n - Developed a **5 DOF manipulator** with a compliant gripper and integrated a **closed-loop control system** using Inverse Kinematics for robust manipulation. \n - Won the Indian Rover Challenge 2019 and placed 12th internationally in the University Rover Challenge 2019.",
-    tags: ["Robotics", "Mechanical Design", "Control Systems", "ROS2", "Python/C++", "Fusion 360", "MATLAB/Simulink", "Gazebo"],
-    links: [{ text: "Blog Post", url: "https://1105saivenkat.wixsite.com/liteonly/post/team-anveshak-the-story-of-me-and-a-mars-rover" }],
-    images: ["/projects/Anveshak.avif", "/projects/Caesar.avif"],
 
-  },
   {
     slug: "pediatric-wheelchair",
     title: "Cerebral Palsy Assist Wheelchair",
