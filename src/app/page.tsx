@@ -272,7 +272,7 @@ export default function Home() {
 
             <div className="flex flex-wrap gap-4 pt-2">
               <a
-                href="resume.pdf"
+                href="Resume/Sai_Venkat_Resume.pdf"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center justify-center rounded-xl bg-primary px-6 py-4 text-sm font-bold tracking-wide text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-105"
@@ -729,7 +729,7 @@ export default function Home() {
             <a href="https://linkedin.com/in/sai-venkat-gunda" target="_blank" rel="noreferrer" className="flex items-center hover:text-primary transition-colors font-medium">
               <LinkedinIcon className="w-4 h-4 mr-2" /> LinkedIn
             </a>
-            <a href="resume.pdf" target="_blank" rel="noreferrer" className="flex items-center hover:text-primary transition-colors font-medium">
+            <a href="Resume/Sai_Venkat_Resume.pdf" target="_blank" rel="noreferrer" className="flex items-center hover:text-primary transition-colors font-medium">
               <FileText className="w-4 h-4 mr-2" /> Resume
             </a>
           </div>

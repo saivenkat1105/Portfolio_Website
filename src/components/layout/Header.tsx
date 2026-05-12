@@ -17,7 +17,7 @@ export function Header() {
             <a href="https://linkedin.com/in/sai-venkat-gunda" target="_blank" rel="noreferrer" className="flex items-center text-muted-foreground hover:text-foreground">
               LinkedIn <ExternalLink className="ml-1 h-3 w-3" />
             </a>
-            <a href="/resume.pdf" target="_blank" rel="noreferrer" className="flex items-center text-muted-foreground hover:text-foreground">
+            <a href="/Resume/Sai_Venkat_Resume.pdf" target="_blank" rel="noreferrer" className="flex items-center text-muted-foreground hover:text-foreground">
               Resume <ExternalLink className="ml-1 h-3 w-3" />
             </a>
             <a href="https://github.com/saivenkat1105" target="_blank" rel="noreferrer" className="flex items-center text-muted-foreground hover:text-foreground">
