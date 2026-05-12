@@ -677,9 +677,14 @@ export default function Home() {
                 in the automobile industry which was equally exciting, but a small part of me always stayed with robotics.
               </p>
               <p>
-                I am a fan of automation. I will spend 2 hours automating a task that can be done 1 hour if it means
-                I dont have to do something mundane. I am always full of ideas and <span className="text-primary font-semibold">vibe coding</span> has given  me a new lease of life
-                to build everything that I can think of. Most of them are useless but I am proud of every single vib-coded project I have worked on.
+                That has brought me to get myself learning about the latest trends across robotics specifically related to
+                Robot Learning and Controls, VLAs, Imitation Learning etc and I was amazed.
+                I felt that the next frontier for human innnovation is going to be in this field and I really wanted
+                to be a part of that journey.
+              </p>
+              <p>
+                I am always full of ideas and <span className="text-primary font-semibold">vibe coding</span> has given  me a new lease of life
+                to build everything that I can think of. Most of them are useless for others but I find joy in the things that they do.
                 I am always up for discussing anything under the Sun, be it politics, technology, my chess ELO, how I think the world is a simulation,
                 or how I believe that the world is like the Truman show with me being the main character.
               </p>
